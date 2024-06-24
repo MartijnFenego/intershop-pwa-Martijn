@@ -135,6 +135,12 @@ class RepeatFieldComponent extends FieldArrayType {}
 })
 class NumberFieldComponent extends FieldType {}
 
+@Component({
+  selector: 'ish-information-test-field',
+  template: 'InformationFieldComponent: {{ field.key }} {{ field.type }} {{ to | json }}',
+})
+class InformationFieldComponent extends FieldType {}
+
 @NgModule({
   declarations: [
     CaptchaFieldComponent,
@@ -144,6 +150,7 @@ class NumberFieldComponent extends FieldType {}
     EmailFieldComponent,
     FieldsetFieldComponent,
     HtmlTextFieldComponent,
+    InformationFieldComponent,
     NumberFieldComponent,
     PasswordFieldComponent,
     PhoneFieldComponent,
@@ -220,6 +227,10 @@ class NumberFieldComponent extends FieldType {}
         {
           name: 'ish-number-field',
           component: NumberFieldComponent,
+        },
+        {
+          name: 'ish-information-field',
+          component: InformationFieldComponent,
         },
       ],
       wrappers: [
