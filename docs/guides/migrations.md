@@ -7,6 +7,17 @@ kb_sync_latest_only
 
 # Migrations
 
+## From 7.1.0 to 8.0.0
+
+The order history listing for the PWA was improved.
+Previously, there was only a "load more" button to extend the order list if there were more orders to show.
+Now, the order list provides a complete paging bar if there are more than 25 orders (by default) to display.
+This functionality requires ICM 13.1.0 or newer that provides the extended Order REST API that returns the needed paging information.
+
+PWA projects that do not use ICM 13.1.0 or newer yet will only see the first 25 orders without a hint that there are additional relevant orders.
+Searching and filtering work as before there, but the "load more" button is no longer available.
+For such projects, it is probably best to skip the order history paging commit when migrating to PWA 8.0.0 until they have also migrated to ICM 13.1.0.
+
 ## From 7.0.0 to 7.1.0
 
 Because of installation problems with the used `luarocks` package manager we disabled the installation of the `lua-resty-redis-connector` that provides the functionality to connect to a shared Redis cache.

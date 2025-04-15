@@ -1038,7 +1038,7 @@
   "product.image.text.alttext": "photo du produit",
   "product.instock.text": "En stock",
   "product.itemNumber.label": "ID de produit :",
-  "product.items.label": "{{0, plural, one{# article} other{# articles}}}",
+  "product.items.label": "{{0, plural, one{# élément} other{# éléments}}}",
   "product.items.sorting.default.label": "Tri par défaut",
   "product.items.sorting.label": "Trier des produits par :",
   "product.items.view.grid_view.aria_label": "Vue en grille",

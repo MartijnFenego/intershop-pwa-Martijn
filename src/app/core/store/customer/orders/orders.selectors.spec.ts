@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { LineItem } from 'ish-core/models/line-item/line-item.model';
 import { Order } from 'ish-core/models/order/order.model';
-import { PagingData } from 'ish-core/models/paging/paging.model';
+import { PagingInfo } from 'ish-core/models/paging-info/paging-info.model';
 import { Product } from 'ish-core/models/product/product.model';
 import { CoreStoreModule } from 'ish-core/store/core/core-store.module';
 import { CustomerStoreModule } from 'ish-core/store/customer/customer-store.module';
@@ -25,6 +25,7 @@ import {
   getOrders,
   getOrdersError,
   getOrdersLoading,
+  getOrdersPagingInfo,
   getSelectedOrder,
   getSelectedOrderId,
 } from './orders.selectors';
@@ -48,7 +49,7 @@ describe('Orders Selectors', () => {
     offset: 0,
     limit: 30,
     total: 2,
-  } as PagingData;
+  } as PagingInfo;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -113,6 +114,10 @@ describe('Orders Selectors', () => {
         expect(loadedOrders[1].lineItems).toHaveLength(1);
         expect(loadedOrders[1].lineItems[0].id).toEqual('test2');
         expect(loadedOrders[1].lineItems[0].productSKU).toEqual('sku');
+      });
+
+      it('should have paging information', () => {
+        expect(getOrdersPagingInfo(store$.state)).toEqual(paging);
       });
 
       it('should have a query', () => {
