@@ -194,7 +194,8 @@ export class ProductsEffects {
           first(),
           switchMap(pageSize =>
             this.productsServiceProvider
-              .get()
+              // TODO: (Sparque handling) remove this additional parameter once the category navigation will be handled by Sparque
+              .get(Object.keys(searchParameter).includes('productFilter'))
               .getFilteredProducts(searchParameter, pageSize, sorting, ((page || 1) - 1) * pageSize)
               .pipe(
                 mergeMap(({ products, total, sortableAttributes, filter }) => [

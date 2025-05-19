@@ -49,7 +49,7 @@ describe('Products Effects', () => {
   beforeEach(() => {
     productsServiceProviderMock = mock(ProductsServiceProvider);
     productsServiceMock = mock(ProductsService);
-    when(productsServiceProviderMock.get()).thenReturn(instance(productsServiceMock));
+    when(productsServiceProviderMock.get(anything())).thenReturn(instance(productsServiceMock));
     when(productsServiceMock.getProduct(anyString())).thenCall((sku: string) => {
       if (sku === 'invalid') {
         return throwError(() => makeHttpError({ message: 'invalid' }));

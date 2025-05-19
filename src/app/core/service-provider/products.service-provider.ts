@@ -21,12 +21,13 @@ export class ProductsServiceProvider {
    *
    * @returns An instance of either SparqueProductsService or ProductsService.
    */
-  get(): ProductsServiceInterface {
+  // TODO: (Sparque handling) remove 'skipSparque' parameter once the category navigation will be handled by Sparque
+  get(skipSparque: boolean = false): ProductsServiceInterface {
     let isSparque = false;
     this.store
       .pipe(select(getSparqueConfig), take(1))
       .subscribe(sparqueConfig => (sparqueConfig ? (isSparque = true) : (isSparque = false)));
-    return isSparque ? this.sparqueProductsService : this.productsService;
+    return isSparque && !skipSparque ? this.sparqueProductsService : this.productsService;
   }
 }
 

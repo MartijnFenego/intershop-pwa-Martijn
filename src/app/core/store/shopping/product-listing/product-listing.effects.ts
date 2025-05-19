@@ -164,9 +164,9 @@ export class ProductListingEffects {
       mapToPayload(),
       map(({ id, filters }) => ({ type: id.type, value: id.value, filters })),
       distinctUntilChanged(isEqual),
-      // load filters only in non Sparque environments
+      // TODO: (Sparque handling) temporary solution until the category navigation will be handled by Sparque
       concatLatestFrom(() => this.store.pipe(select(getSparqueConfig))),
-      filter(([, sparqueConfig]) => !sparqueConfig),
+      filter(([{ type }, sparqueConfig]) => !sparqueConfig || type !== 'search'),
       map(([{ type, value, filters }]) => {
         if (filters) {
           const searchParameter = filters;
