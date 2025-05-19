@@ -34,7 +34,7 @@ export class SuggestProductsTileComponent implements OnInit {
       .pipe(map(name => (this.deviceType === 'desktop' ? this.truncate(name, 38) : name)));
   }
 
-  truncate(text: string, limit: number): string {
+  private truncate(text: string, limit: number): string {
     return text.length > limit + 3 ? `${text.substring(0, limit)}...` : text;
   }
 

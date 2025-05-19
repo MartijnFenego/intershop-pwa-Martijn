@@ -111,8 +111,8 @@
     </ng-template>
   </ng-container>
 
-  <ng-template #initialState
-    ><div *ngIf="(searchedTerms$ | async) && configuration?.autoSuggest" class="search-suggest-container">
+  <ng-template #initialState>
+    <div *ngIf="(searchedTerms$ | async) && configuration?.autoSuggest" class="search-suggest-container">
       <div class="col-12">
         <ish-suggest-search-terms
           [maxRecentlySearchedWords]="5"
