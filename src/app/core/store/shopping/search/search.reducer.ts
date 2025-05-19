@@ -7,7 +7,6 @@ import { setErrorOn, setLoadingOn, unsetLoadingAndErrorOn } from 'ish-core/utils
 import {
   addSearchTermToSuggestion,
   removeSuggestions,
-  sparqueSuggestServerError,
   suggestSearch,
   suggestSearchFail,
   suggestSearchSuccess,
@@ -33,7 +32,7 @@ export const searchReducer = createReducer(
   initialState,
   setLoadingOn(suggestSearch),
   unsetLoadingAndErrorOn(suggestSearchSuccess),
-  setErrorOn(suggestSearchFail, sparqueSuggestServerError),
+  setErrorOn(suggestSearchFail),
   on(removeSuggestions, (state): SearchState => ({ ...state, suggestions: undefined })),
   on(
     suggestSearchSuccess,
