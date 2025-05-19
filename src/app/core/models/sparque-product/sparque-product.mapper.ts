@@ -36,8 +36,9 @@ export class SparqueProductMapper {
       available: true,
       type: 'Product',
       images: this.sparqueImageMapper.fromImages(data.images),
-      // set completenessLevel to 2 for appropriate data in product lists (otherwise a product details call will be triggered)
-      completenessLevel: 2,
+      // TODO: completenessLevel for product lists should be 2 (otherwise a product details call will be triggered)
+      // the Sparque response is currently missing needed product data to omit the additional REST calls (rating, promotion, etc.)
+      completenessLevel: 1,
     };
   }
 }

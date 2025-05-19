@@ -46,7 +46,7 @@ describe('Sparque Product Mapper', () => {
         [
           {
             "available": true,
-            "completenessLevel": 2,
+            "completenessLevel": 1,
             "images": [
               {
                 "effectiveUrl": "baseUrl/S/123.jpg",

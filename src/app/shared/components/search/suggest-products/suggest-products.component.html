@@ -5,6 +5,7 @@
       *ngFor="let productSku of products | slice : 0 : maxAutoSuggests"
       ishProductContext
       [sku]="productSku"
+      [completeness]="1"
       [inputTerms$]="inputTerms$"
       [deviceType]="deviceType"
       (routeChange)="handleInputFocus()"
