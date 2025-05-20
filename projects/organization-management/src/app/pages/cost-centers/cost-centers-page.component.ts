@@ -23,7 +23,7 @@ export class CostCentersPageComponent implements OnInit {
   costCentersLoading$: Observable<boolean>;
   costCentersForPage$: Observable<CostCenter[]>;
   pagingInfo$: Observable<PagingInfo>;
-  pageSize = 25;
+  pageSize = 5;
 
   private activeFilters: Partial<CostCenterQuery> = {};
   private destroyRef = inject(DestroyRef);
