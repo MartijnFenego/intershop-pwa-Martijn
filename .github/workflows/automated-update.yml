@@ -10,7 +10,7 @@ on:
   #   - cron: '0 0 * * 1'
 
 env:
-  NODE_VERSION: 20.19.1
+  NODE_VERSION: 20.19.2
 
 jobs:
   CancelPrevious:
