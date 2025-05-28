@@ -1,11 +1,19 @@
-.success-row {
-  background-color: #d4edda; /* Grün für Erfolg */
+.success-text {
+  color: #28a745;
 }
 
-.error-row {
-  background-color: #f8d7da; /* Rot für Fehler */
+.error-text {
+  color: #dc3545;
 }
 
-.default-row {
-  background-color: #fdfdfe; /* Standard-Hintergrund */
+.inline-data-wrapper {
+  display: inline-flex;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+.inline-data-wrapper > span:first-child {
+  margin-left: 5px;
+  white-space: nowrap;
+  vertical-align: middle;
 }

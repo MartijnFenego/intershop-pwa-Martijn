@@ -26,6 +26,15 @@ export const loadCostCenterSuccess = createAction(
 
 export const addCostCenter = createAction('[CostCenters] Add Cost Center', payload<{ costCenter: CostCenterBase }>());
 
+export const addCostCentersFromCSV = createAction(
+  '[CostCenters] Add Cost Centers from CSV',
+  payload<{ costCenters: CostCenterBase[] }>()
+);
+
+export const addCostCentersImportResult = createAction(
+  '[CostCenters] Add Cost Centers Import Result',
+  ({ importResults }: { importResults: { costCenter: CostCenterBase; status: string }[] }) => ({ importResults })
+);
 export const addCostCenterFail = createAction('[CostCenters API] Add Cost Center Fail', httpError());
 
 export const addCostCenterSuccess = createAction(

@@ -141,7 +141,9 @@ input.form-check-input {
 }
 
 .input-help {
+  margin-left: 3px;
   color: $text-color-tertiary;
+  white-space: nowrap;
 }
 
 select {

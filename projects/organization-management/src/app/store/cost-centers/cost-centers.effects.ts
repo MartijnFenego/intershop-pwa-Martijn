@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
-import { from } from 'rxjs';
-import { concatMap, exhaustMap, map, mergeMap } from 'rxjs/operators';
+import { forkJoin, from, of } from 'rxjs';
+import { catchError, concatMap, exhaustMap, map, mergeMap } from 'rxjs/operators';
 
 import { displaySuccessMessage } from 'ish-core/store/core/messages/messages.actions';
 import { selectRouteParam } from 'ish-core/store/core/router';
@@ -18,6 +18,8 @@ import {
   addCostCenterBuyersSuccess,
   addCostCenterFail,
   addCostCenterSuccess,
+  addCostCentersFromCSV,
+  addCostCentersImportResult,
   deleteCostCenter,
   deleteCostCenterBuyer,
   deleteCostCenterBuyerFail,
@@ -100,6 +102,33 @@ export class CostCentersEffects {
           mapErrorToAction(addCostCenterFail)
         )
       )
+    )
+  );
+
+  addCostCenterFromCSV$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addCostCentersFromCSV),
+      mapToPayload(),
+      concatMap(payload => {
+        const costCenterObservables = payload.costCenters.map(costCenter =>
+          this.costCentersService.addCostCenter(costCenter).pipe(
+            map(addedCostCenter => ({
+              costCenter: addedCostCenter,
+              status: 'Created successfully',
+            })),
+            catchError(error =>
+              of({
+                costCenter,
+                status: error ? `${error.errors[0].message}` : 'Error: Unknown',
+              })
+            )
+          )
+        );
+        return forkJoin(costCenterObservables).pipe(
+          concatMap(results => this.navigateTo('../import').pipe(mergeMap(() => [results]))),
+          mergeMap(results => [addCostCentersImportResult({ importResults: results })])
+        );
+      })
     )
   );
 

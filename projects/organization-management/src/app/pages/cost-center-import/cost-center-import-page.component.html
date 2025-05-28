@@ -1,11 +1,14 @@
-<button type="submit" class="btn btn-secondary" (click)="openFileExplorer()">import File</button>
-<input type="file" #fileInput style="display: none" (change)="onFileSelected($event)" />
 <div class="loading-container">
-  <ng-container *ngIf="csvData$ | async as costCenters">
-    <ng-container *ngIf="costCenters.length > 0; else emptyList">
+  <h1 class="pr-2">
+    {{ 'account.costcenter.import.csv.summary.title' | translate }}
+  </h1>
+  <p>{{ 'account.costcenter.import.csv.summary.info' | translate }}</p>
+
+  <ng-container *ngIf="importResults$ | async as costCenters">
+    <ng-container *ngIf="importedCostCenters.length > 0; else emptyList">
       <table
         cdk-table
-        [dataSource]="costCenters"
+        [dataSource]="importedCostCenters"
         class="table table-lg mobile-optimized"
         data-testing-id="costCenter-list"
       >
@@ -14,8 +17,17 @@
           <th cdk-header-cell *cdkHeaderCellDef data-testing-id="th-costCenter-id">
             {{ 'account.costcenter.list.header.no' | translate }}
           </th>
-          <td cdk-cell *cdkCellDef="let costCenter" [attr.data-label]="'account.costcenter.list.header.no' | translate">
-            {{ costCenter.costCenterId }}
+          <td
+            cdk-cell
+            *cdkCellDef="let importedCostCenter"
+            [attr.data-label]="'account.costcenter.list.header.no' | translate"
+          >
+            <span class="inline-data-wrapper">
+              <span>{{ importedCostCenter.costCenter.costCenterId }}</span>
+              <span *ngIf="importedCostCenter.costCenter.active === false" class="input-help">
+                {{ 'account.costCenter.status.inactive' | translate }}
+              </span>
+            </span>
           </td>
         </ng-container>
 
@@ -26,10 +38,10 @@
           </th>
           <td
             cdk-cell
-            *cdkCellDef="let costCenter"
+            *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.name' | translate"
           >
-            {{ costCenter.name }}
+            {{ importedCostCenter.costCenter.name }}
           </td>
         </ng-container>
 
@@ -40,10 +52,10 @@
           </th>
           <td
             cdk-cell
-            *cdkCellDef="let costCenter"
+            *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.manager' | translate"
           >
-            {{ costCenter.costCenterOwner.login }}
+            {{ importedCostCenter.costCenter.costCenterOwner.login }}
           </td>
         </ng-container>
 
@@ -54,24 +66,16 @@
           </th>
           <td
             cdk-cell
-            *cdkCellDef="let costCenter"
+            *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.budgetspent' | translate"
           >
-            {{ costCenter.budget.value }} {{ costCenter.budget.currency }}
-          </td>
-        </ng-container>
-
-        <!-- Cost Center Budget Period -->
-        <ng-container cdkColumnDef="costCenterBudgetPeriod">
-          <th cdk-header-cell *cdkHeaderCellDef data-testing-id="th-costCenter-budget">
-            {{ 'account.costcenter.list.header.budgetperiod' | translate }}
-          </th>
-          <td
-            cdk-cell
-            *cdkCellDef="let costCenter"
-            [attr.data-label]="'account.costcenter.list.header.budgetperiod' | translate"
-          >
-            {{ costCenter.budgetPeriod }}
+            <span class="inline-data-wrapper">
+              <span
+                >{{ importedCostCenter.costCenter.budget.value }}
+                {{ importedCostCenter.costCenter.budget.currency }}</span
+              >
+              <span class="input-help"> ({{ importedCostCenter.costCenter.budgetPeriod }}) </span>
+            </span>
           </td>
         </ng-container>
 
@@ -82,28 +86,23 @@
           </th>
           <td
             cdk-cell
-            *cdkCellDef="let costCenter"
+            *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.status' | translate"
           >
-            {{ costCenter.status || 'not send' }}
+            <span
+              [ngClass]="{
+                'success-text': importedCostCenter.status === 'Created successfully',
+                'error-text': importedCostCenter.status !== 'Created successfully',
+              }"
+            >
+              {{ importedCostCenter.status }}
+            </span>
           </td>
         </ng-container>
 
-        <ul *ngIf="csvData$ | async as csv">
-          <li *ngFor="let row of csv">{{ row.costCenterId }} – {{ row.name }}</li>
-        </ul>
-
         <!-- Header and Row Declarations -->
         <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>
-        <tr
-          cdk-row
-          *cdkRowDef="let row; columns: columnsToDisplay"
-          [ngClass]="{
-            'success-row': row.status === 'Success',
-            'error-row': row.status && row.status.startsWith('Error'),
-            'default-row': !row.status || row.status === 'not send'
-          }"
-        ></tr>
+        <tr cdk-row *cdkRowDef="let row; columns: columnsToDisplay"></tr>
       </table>
     </ng-container>
 
@@ -113,13 +112,7 @@
     </ng-template>
   </ng-container>
 
+  <a [routerLink]="['/account/organization/cost-centers']">Back to cost centers</a>
+
   <ish-loading *ngIf="loading$" />
 </div>
-<button
-  type="submit"
-  class="btn btn-primary"
-  (click)="submitCostCenterImports()"
-  data-testing-id="create-cost-center-submit"
->
-  {{ 'account.costcenter.create.button.label' | translate }}
-</button>

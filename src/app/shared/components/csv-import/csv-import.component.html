@@ -1,0 +1,26 @@
+<div class="csv-import">
+  <h2>{{ 'csv.title.key' | translate }}</h2>
+  <p>{{ subtitleKey | translate }}</p>
+  <div class="form-group">
+    <input
+      #fileInput
+      type="file"
+      class="form-control"
+      [attr.accept]="accept"
+      (change)="onFileChange($event)"
+      aria-label="CSV Upload"
+    />
+  </div>
+  <div [ngSwitch]="status">
+    <small *ngSwitchCase="'ValidFormat'" class="has-success"
+      ><span class="validation-message">{{ 'csv.file.uploaded' | translate }}</span></small
+    >
+    <small *ngSwitchCase="'InvalidFormat'" class="has-error"
+      ><span class="validation-message">{{ 'csv.file.invalid.format' | translate }}</span></small
+    >
+    <small *ngSwitchCase="'InvalidHeader'" class="has-error"
+      ><span class="validation-message">{{ 'csv.file.invaild.headers' | translate }}</span></small
+    >
+  </div>
+  <small class="form-text" *ngIf="sampleTextKey" [innerHTML]="sampleTextKey"></small>
+</div>

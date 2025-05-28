@@ -1,80 +1,42 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 
 import { ShoppingFacade } from 'ish-core/facades/shopping.facade';
 import { SkuQuantityType } from 'ish-core/models/product/product.model';
-
-declare type CsvStatusType = 'Default' | 'ValidFormat' | 'InvalidFormat' | 'IncorrectInput';
+import { CsvImportComponent, CsvParsedEvent } from 'ish-shared/components/csv-import/csv-import.component';
 
 @Component({
   selector: 'ish-quickorder-csv-form',
   templateUrl: './quickorder-csv-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickorderCsvFormComponent implements OnInit {
-  csvForm: FormGroup;
+export class QuickorderCsvFormComponent {
   private productsFromCsv: SkuQuantityType[] = [];
-  status: CsvStatusType;
 
-  constructor(private qf: FormBuilder, private cdRef: ChangeDetectorRef, private shoppingFacade: ShoppingFacade) {}
+  quickOrderHeaders: string[] = ['Product ID', 'Quantity'];
 
-  ngOnInit() {
-    this.csvForm = this.qf.group({
-      csvFile: ['', Validators.required],
-    });
+  @ViewChild(CsvImportComponent, { static: false })
+  csvImportComponent: CsvImportComponent;
 
-    this.status = 'Default';
-  }
+  constructor(private shoppingFacade: ShoppingFacade) {}
 
-  uploadListener(target: EventTarget): void {
-    const files = (target as HTMLInputElement).files;
-    this.status = 'Default';
-
-    if (this.isValidCSVFile(files[0])) {
-      const reader = new FileReader();
-      reader.readAsText(files[0]);
-
-      reader.onload = () => {
-        const csvData = reader.result;
-        const csvRecordsArray = (csvData as string).split(/\r\n|\n/);
-        this.productsFromCsv = this.getDataRecordsArrayFromCSVFile(csvRecordsArray);
-      };
-
-      reader.onloadend = () => {
-        this.status =
-          this.productsFromCsv.filter(p => p.sku !== '' && p.quantity !== undefined).length !== 0
-            ? 'ValidFormat'
-            : 'IncorrectInput';
-
-        this.cdRef.markForCheck();
-      };
-    } else {
-      this.status = 'InvalidFormat';
-    }
-  }
-
-  private isValidCSVFile(file: File) {
-    return file.name.endsWith('.csv');
-  }
-
-  private getDataRecordsArrayFromCSVFile(csvRecordsArray: string[]): SkuQuantityType[] {
+  handleCsvImport(event: CsvParsedEvent): void {
     try {
-      return csvRecordsArray
-        .filter(r => !!r)
-        .map(record => record.split(/[,;]/))
-        .map(record => ({
-          sku: record[0].trim(),
-          quantity: +record[1].trim(),
+      const records = event.data.map(line => line.split(',')).filter(columns => columns.length >= 2);
+      this.productsFromCsv = records
+        .map(columns => ({
+          sku: columns[0].trim(),
+          quantity: +columns[1].trim(),
         }))
-        .filter(record => !isNaN(record.quantity));
+        .filter(record => record.sku && !isNaN(record.quantity));
+      this.csvImportComponent.status = this.productsFromCsv.length > 0 ? 'ValidFormat' : 'InvalidFormat';
     } catch (error) {
-      this.status = 'IncorrectInput';
-      return [];
+      this.csvImportComponent.status = 'InvalidFormat';
+      this.productsFromCsv = [];
     }
   }
 
   addCsvToCart() {
-    if (this.status === 'ValidFormat') {
+    if (this.csvImportComponent.status === 'ValidFormat') {
       if (this.productsFromCsv.length > 0) {
         this.productsFromCsv.forEach(product => {
           this.shoppingFacade.addProductToBasket(product.sku, product.quantity);
@@ -86,10 +48,16 @@ export class QuickorderCsvFormComponent implements OnInit {
 
   resetCsvProductArray() {
     this.productsFromCsv = [];
-    this.status = 'Default';
+    if (this.csvImportComponent) {
+      this.csvImportComponent.reset();
+    }
   }
 
   get isCsvDisabled() {
-    return this.status !== 'ValidFormat';
+    return !this.csvImportComponent || this.csvImportComponent.status !== 'ValidFormat';
+  }
+
+  get parsedProducts(): SkuQuantityType[] {
+    return this.productsFromCsv;
   }
 }

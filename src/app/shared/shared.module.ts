@@ -98,6 +98,7 @@ import { ModalDialogLinkComponent } from './components/common/modal-dialog-link/
 import { ModalDialogComponent } from './components/common/modal-dialog/modal-dialog.component';
 import { PagingComponent } from './components/common/paging/paging.component';
 import { SuccessMessageComponent } from './components/common/success-message/success-message.component';
+import { CsvImportComponent } from './components/csv-import/csv-import.component';
 import { FilterCheckboxComponent } from './components/filter/filter-checkbox/filter-checkbox.component';
 import { FilterCollapsibleComponent } from './components/filter/filter-collapsible/filter-collapsible.component';
 import { FilterDropdownComponent } from './components/filter/filter-dropdown/filter-dropdown.component';
@@ -220,6 +221,7 @@ const declaredComponents = [
   CMSVideoComponent,
   ConfirmLeaveModalComponent,
   ContentSlotComponent,
+  CsvImportComponent,
   FilterCheckboxComponent,
   FilterCollapsibleComponent,
   FilterDropdownComponent,
@@ -276,6 +278,7 @@ const exportedComponents = [
   ContentPageletComponent,
   ContentDesignViewWrapperComponent,
   ContentViewcontextComponent,
+  CsvImportComponent,
   ErrorMessageComponent,
   FilterNavigationComponent,
   IdentityProviderLoginComponent,

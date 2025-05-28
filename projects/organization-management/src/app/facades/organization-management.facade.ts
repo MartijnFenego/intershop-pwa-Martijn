@@ -12,7 +12,6 @@ import { mapToProperty, whenTruthy } from 'ish-core/utils/operators';
 
 import { B2bUser } from '../models/b2b-user/b2b-user.model';
 import { UserBudget } from '../models/user-budget/user-budget.model';
-import { CostCentersService } from '../services/cost-centers/cost-centers.service';
 import {
   getCurrentUserBudget,
   getCurrentUserBudgetError,
@@ -22,8 +21,10 @@ import {
 import {
   addCostCenter,
   addCostCenterBuyers,
+  addCostCentersFromCSV,
   deleteCostCenter,
   deleteCostCenterBuyer,
+  getCostCenterImportResults,
   getCostCenters,
   getCostCentersError,
   getCostCentersLoading,
@@ -52,7 +53,7 @@ import {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class OrganizationManagementFacade {
-  constructor(private store: Store, private costCenterService: CostCentersService) {}
+  constructor(private store: Store) {}
 
   usersError$ = this.store.pipe(select(getUsersError));
   usersLoading$ = this.store.pipe(select(getUsersLoading));
@@ -68,6 +69,9 @@ export class OrganizationManagementFacade {
   costCentersError$ = this.store.pipe(select(getCostCentersError));
   costCentersLoading$ = this.store.pipe(select(getCostCentersLoading));
   selectedCostCenter$ = this.store.pipe(select(getSelectedCostCenter));
+  importedCostCenters$: Observable<{ costCenter: CostCenterBase; status: string }[]> = this.store.pipe(
+    select(getCostCenterImportResults)
+  );
 
   /**
    * user methods
@@ -191,8 +195,12 @@ export class OrganizationManagementFacade {
     );
   }
 
-  addCostCenterFromCSV(costCenter: CostCenterBase) {
-    return this.costCenterService.addCostCenter(costCenter);
+  addCostCenterFromCSV(costCenters: CostCenterBase[]) {
+    this.store.dispatch(
+      addCostCentersFromCSV({
+        costCenters,
+      })
+    );
   }
 
   updateCostCenter(costCenter: CostCenterBase) {
