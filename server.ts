@@ -19,6 +19,14 @@ import { getDeployURLFromEnv, setDeployUrlInFile } from './src/ssr/deploy-url';
 import * as client from 'prom-client';
 import { MetricsDetailLevel } from 'ish-core/models/metrics/metrics-detail-level';
 import { METRICS_DETAIL_LEVEL } from 'ish-core/configurations/injection-keys';
+import { setGlobalDispatcher, Agent } from 'undici';
+
+// set undici as http client for HTTP/2 support
+setGlobalDispatcher(
+  new Agent({
+    allowH2: true,
+  })
+);
 
 const collectDefaultMetrics = client.collectDefaultMetrics;
 
@@ -226,7 +234,7 @@ export function app() {
   if (logging) {
     const morgan = require('morgan');
     // see https://github.com/expressjs/morgan#predefined-formats
-    let logFormat = morgan.tiny;
+    let logFormat = morgan.short;
     if (PM2) {
       logFormat = `${PM2} ${logFormat}`;
     }
