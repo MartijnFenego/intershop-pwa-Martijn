@@ -57,46 +57,46 @@ jobs:
           name: dist
           path: dist
 
-  # Universal:
-  #   needs: [Build]
-  #   runs-on: ubuntu-latest
+  Universal:
+    needs: [Build]
+    runs-on: ubuntu-latest
 
-  #   strategy:
-  #     matrix:
-  #       test: ['b2c', 'b2b']
+    strategy:
+      matrix:
+        test: ['b2c', 'b2b']
 
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - name: Use Node.js 22
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
-  #         cache: npm
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 22
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
 
-  #     - name: Download Build Output
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: dist
-  #         path: dist
+      - name: Download Build Output
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
 
-  #     - name: Set Environment
-  #       run: |
-  #         echo "LOGGING=true" >> $GITHUB_ENV
+      - name: Set Environment
+        run: |
+          echo "LOGGING=true" >> $GITHUB_ENV
 
-  #     - name: Set B2C Environment
-  #       if: matrix.test == 'b2c'
-  #       run: |
-  #         echo "THEME=b2c" >> $GITHUB_ENV
+      - name: Set B2C Environment
+        if: matrix.test == 'b2c'
+        run: |
+          echo "THEME=b2c" >> $GITHUB_ENV
 
-  #     - name: Set B2B Environment
-  #       if: matrix.test == 'b2b'
-  #       run: |
-  #         echo "THEME=b2b" >> $GITHUB_ENV
+      - name: Set B2B Environment
+        if: matrix.test == 'b2b'
+        run: |
+          echo "THEME=b2b" >> $GITHUB_ENV
 
-  #     - name: Test Universal
-  #       run: |
-  #         node dist/$THEME/run-standalone &
-  #         sh e2e/test-universal.sh
+      - name: Test Universal
+        run: |
+          node dist/$THEME/run-standalone &
+          sh e2e/test-universal.sh
 
   Cypress:
     needs: [Build]
