@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { MockComponent } from 'ng-mocks';
-import { instance, mock } from 'ts-mockito';
+import { of } from 'rxjs';
+import { instance, mock, when } from 'ts-mockito';
 
 import { AppFacade } from 'ish-core/facades/app.facade';
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
@@ -13,15 +14,25 @@ describe('Line Item Information Edit Component', () => {
   let component: LineItemInformationEditComponent;
   let fixture: ComponentFixture<LineItemInformationEditComponent>;
   let element: HTMLElement;
+  let context: ProductContextFacade;
 
   beforeEach(async () => {
+    context = mock(ProductContextFacade);
+    const appFacade = mock(AppFacade);
+    when(appFacade.customFieldsForScope$('BasketLineItem')).thenReturn(of([]));
+
     await TestBed.configureTestingModule({
       imports: [TranslateModule.forRoot()],
       declarations: [LineItemInformationEditComponent, MockComponent(LineItemCustomFieldsComponent)],
-      providers: [{ provide: AppFacade, useFactory: () => instance(mock(AppFacade)) }],
+      providers: [],
     })
       .overrideComponent(LineItemInformationEditComponent, {
-        set: { providers: [{ provide: ProductContextFacade, useFactory: () => instance(mock(ProductContextFacade)) }] },
+        set: {
+          providers: [
+            { provide: AppFacade, useFactory: () => instance(appFacade) },
+            { provide: ProductContextFacade, useFactory: () => instance(context) },
+          ],
+        },
       })
       .compileComponents();
   });
@@ -30,6 +41,8 @@ describe('Line Item Information Edit Component', () => {
     fixture = TestBed.createComponent(LineItemInformationEditComponent);
     component = fixture.componentInstance;
     element = fixture.nativeElement;
+
+    when(context.select('loading')).thenReturn(of(false));
   });
 
   it('should be created', () => {

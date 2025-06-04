@@ -11,10 +11,12 @@ import { CheckoutFacade } from 'ish-core/facades/checkout.facade';
 import { ProductContextFacade } from 'ish-core/facades/product-context.facade';
 import { PricePipe } from 'ish-core/models/price/price.pipe';
 import { ProductView } from 'ish-core/models/product-view/product-view.model';
+import { ServerSettingPipe } from 'ish-core/pipes/server-setting.pipe';
 import { BasketMockData } from 'ish-core/utils/dev/basket-mock-data';
 import { findAllCustomElements } from 'ish-core/utils/dev/html-query-utils';
 import { LineItemCustomFieldsComponent } from 'ish-shared/components/line-item/line-item-custom-fields/line-item-custom-fields.component';
 import { LineItemEditComponent } from 'ish-shared/components/line-item/line-item-edit/line-item-edit.component';
+import { LineItemInformationEditComponent } from 'ish-shared/components/line-item/line-item-information-edit/line-item-information-edit.component';
 import { LineItemWarrantyComponent } from 'ish-shared/components/line-item/line-item-warranty/line-item-warranty.component';
 import { ProductBundleDisplayComponent } from 'ish-shared/components/product/product-bundle-display/product-bundle-display.component';
 import { ProductIdComponent } from 'ish-shared/components/product/product-id/product-id.component';
@@ -51,6 +53,7 @@ describe('Line Item List Element Component', () => {
         MockComponent(LazyProductAddToWishlistComponent),
         MockComponent(LineItemCustomFieldsComponent),
         MockComponent(LineItemEditComponent),
+        MockComponent(LineItemInformationEditComponent),
         MockComponent(LineItemWarrantyComponent),
         MockComponent(ProductBundleDisplayComponent),
         MockComponent(ProductIdComponent),
@@ -64,6 +67,7 @@ describe('Line Item List Element Component', () => {
         MockDirective(NgbPopover),
         MockDirective(ProductContextDirective),
         MockPipe(PricePipe),
+        MockPipe(ServerSettingPipe, () => true),
       ],
       providers: [
         { provide: CheckoutFacade, useFactory: () => instance(mock(CheckoutFacade)) },
@@ -136,19 +140,19 @@ describe('Line Item List Element Component', () => {
         "ish-product-image",
         "ish-product-name",
         "ish-product-id",
-        "ish-line-item-custom-fields",
         "ish-product-variation-display",
         "ish-product-bundle-display",
         "ish-product-inventory",
         "ish-product-shipment",
         "fa-icon",
-        "ish-lazy-product-add-to-order-template",
-        "ish-lazy-product-add-to-wishlist",
-        "fa-icon",
-        "ish-line-item-edit",
         "ish-product-quantity-label",
         "ish-product-quantity",
         "ish-product-quantity",
+        "ish-line-item-warranty",
+        "ish-line-item-information-edit",
+        "ish-lazy-product-add-to-order-template",
+        "ish-lazy-product-add-to-wishlist",
+        "fa-icon",
       ]
     `);
   });
