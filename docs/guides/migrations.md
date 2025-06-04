@@ -18,6 +18,14 @@ PWA projects that do not use ICM 13.1.0 or newer yet will only see the first 25 
 Searching and filtering work as before there, but the "load more" button is no longer available.
 For such projects, it is probably best to skip the order history paging commit when migrating to PWA 8.0.0 until they have also migrated to ICM 13.1.0.
 
+The cost center listing for the PWA was improved.
+It now comes with a complete paging bar if there are more than 25 cost centers (by default) to display.
+In addition, search by cost center ID or name is now supported.
+This functionality requires ICM 13.1.0 or newer that provides the new Cost Center REST API version 2.0.0 that supports paging and search.
+
+PWA projects that do not use ICM 13.1.0 or newer yet will get error responses from the old REST API version.
+For such projects, it is probably best to skip the cost center paging and search commit when migrating to PWA 8.0.0 until they have also migrated to ICM 13.1.0.
+
 ## From 7.0.0 to 7.1.0
 
 Because of installation problems with the used `luarocks` package manager we disabled the installation of the `lua-resty-redis-connector` that provides the functionality to connect to a shared Redis cache.
