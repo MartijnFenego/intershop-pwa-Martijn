@@ -9,7 +9,7 @@ kb_sync_latest_only
 
 ## From 7.1.0 to 8.0.0
 
-The Intershop PWA now uses Node.js 22.16.0 LTS with the corresponding npm version 10.9.2.
+The Intershop PWA now uses Node.js 24.1.0 LTS with the corresponding npm version 11.3.0.
 This addresses the fact that Node.js 18 is already out of maintenance and should no longer be used even though Angular 16 was officially only tested to work with Node.js versions up to Node.js 18.
 In the standard Intershop PWA only the the following warning needed to be addressed:
 

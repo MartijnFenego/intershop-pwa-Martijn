@@ -23,7 +23,7 @@ kb_sync_latest_only
 ## Quick Start
 
 Before working with this project, download and install [Node.js](https://nodejs.org) with the included npm package manager.
-Currently Node.js 22.16.0 LTS with the corresponding npm 10.9.2 is used for development.
+Currently Node.js 24.1.0 LTS with the corresponding npm 11.3.0 is used for development.
 
 The project uses [Angular CLI](https://angular.io/cli) which has to be installed globally.
 Run `npm install -g @angular/cli@16` once to globally install Angular CLI on your development machine.
