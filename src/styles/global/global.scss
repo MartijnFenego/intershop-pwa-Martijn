@@ -221,6 +221,14 @@ a {
   &-secondary {
     color: $CORPORATE-SECONDARY !important;
   }
+
+  &-success {
+    color: $success-color !important;
+  }
+
+  &-error {
+    color: $error-color !important;
+  }
 }
 
 .link-separator {

@@ -21,7 +21,6 @@ export type CostCenterImportResult = {
 @Component({
   selector: 'ish-cost-center-import-page',
   templateUrl: './cost-center-import-page.component.html',
-  styleUrls: ['./cost-center-import-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterImportPageComponent implements OnInit {

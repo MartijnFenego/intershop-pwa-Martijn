@@ -1,8 +1,6 @@
 <div class="d-md-flex align-items-center">
   <div class="d-flex flex-row align-items-center">
-    <h1 class="pr-2">
-      {{ 'account.organization.cost_center_management' | translate }}
-    </h1>
+    <h1 class="pr-2">{{ 'account.organization.cost_center_management' | translate }}</h1>
     <ish-budget-info [suffix]="'account.organization.budget_price_type.suffix.info'" />
   </div>
   <div class="ml-auto py-2">
@@ -132,10 +130,6 @@
             </ng-container>
           </td>
         </ng-container>
-
-        <ul *ngIf="csvData$ | async as csv">
-          <li *ngFor="let row of csv">{{ row.costCenterId }} – {{ row.name }}</li>
-        </ul>
 
         <!-- Header and Row Declarations -->
         <tr cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></tr>

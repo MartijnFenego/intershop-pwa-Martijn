@@ -221,7 +221,6 @@ const declaredComponents = [
   CMSVideoComponent,
   ConfirmLeaveModalComponent,
   ContentSlotComponent,
-  CsvImportComponent,
   FilterCheckboxComponent,
   FilterCollapsibleComponent,
   FilterDropdownComponent,

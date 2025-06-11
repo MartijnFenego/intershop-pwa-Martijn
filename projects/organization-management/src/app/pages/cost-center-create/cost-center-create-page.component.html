@@ -21,7 +21,7 @@
 
 <ish-csv-import
   [subtitleKey]="'account.costcenter.create.csv.subtitle' | translate"
-  [sampleTextKey]="'csv.file.sample' | translate : { '0': 'assets/sample-data/Cost Center import sample data.csv' }"
+  [sampleTextKey]="'csv.file.sample' | translate : { '0': 'assets/sample-data/costcenters.csv' }"
   [expectedHeaders]="costCenterHeaders"
   (csvParsed)="handleCsvImport($event)"
 />

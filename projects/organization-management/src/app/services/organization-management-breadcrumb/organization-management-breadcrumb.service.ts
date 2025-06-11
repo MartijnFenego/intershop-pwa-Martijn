@@ -67,6 +67,11 @@ export class OrganizationManagementBreadcrumbService {
             { key: 'account.organization.cost_center_management', link: `${prefix}/cost-centers` },
             { key: 'account.costcenter.create.heading' },
           ]);
+        } else if (path.endsWith('cost-centers/import')) {
+          return of([
+            { key: 'account.organization.cost_center_management', link: `${prefix}/cost-centers` },
+            { key: 'account.organization.cost_center_management.cost_center_import' },
+          ]);
         } else if (/cost-centers\/:CostCenterId(\/(edit|buyers))?$/.test(path)) {
           return this.organizationManagementFacade.selectedCostCenter$.pipe(
             whenTruthy(),
@@ -88,11 +93,6 @@ export class OrganizationManagementBreadcrumbService {
                   ]
             )
           );
-        } else if (path.endsWith('import')) {
-          return of([
-            { key: 'account.organization.cost_center_management', link: `${prefix}/cost-centers` },
-            { key: 'account.organization.cost_center_management.cost_center_import' },
-          ]);
         }
         return EMPTY;
       })

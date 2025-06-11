@@ -1,9 +1,7 @@
-<div class="loading-container">
-  <h1 class="pr-2">
-    {{ 'account.costcenter.import.csv.summary.title' | translate }}
-  </h1>
-  <p>{{ 'account.costcenter.import.csv.summary.info' | translate }}</p>
+<h1>{{ 'account.costcenter.import.csv.summary.title' | translate }}</h1>
+<p>{{ 'account.costcenter.import.csv.summary.info' | translate }}</p>
 
+<div class="loading-container">
   <ng-container *ngIf="importResults$ | async as costCenters">
     <ng-container *ngIf="importedCostCenters.length > 0; else emptyList">
       <table
@@ -21,12 +19,11 @@
             cdk-cell
             *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.no' | translate"
+            class="text-nowrap"
           >
-            <span class="inline-data-wrapper">
-              <span>{{ importedCostCenter.costCenter.costCenterId }}</span>
-              <span *ngIf="importedCostCenter.costCenter.active === false" class="input-help">
-                {{ 'account.costCenter.status.inactive' | translate }}
-              </span>
+            {{ importedCostCenter.costCenter.costCenterId }}
+            <span *ngIf="!importedCostCenter.costCenter.active" class="input-help">
+              {{ 'account.costCenter.status.inactive' | translate }}
             </span>
           </td>
         </ng-container>
@@ -68,14 +65,11 @@
             cdk-cell
             *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.budgetspent' | translate"
+            class="text-nowrap"
           >
-            <span class="inline-data-wrapper">
-              <span
-                >{{ importedCostCenter.costCenter.budget.value }}
-                {{ importedCostCenter.costCenter.budget.currency }}</span
-              >
-              <span class="input-help"> ({{ importedCostCenter.costCenter.budgetPeriod }}) </span>
-            </span>
+            {{ importedCostCenter.costCenter.budget.value }}
+            {{ importedCostCenter.costCenter.budget.currency }}
+            ({{ importedCostCenter.costCenter.budgetPeriod }})
           </td>
         </ng-container>
 
@@ -89,12 +83,7 @@
             *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.status' | translate"
           >
-            <span
-              [ngClass]="{
-                'success-text': importedCostCenter.status === 'Created successfully',
-                'error-text': importedCostCenter.status !== 'Created successfully',
-              }"
-            >
+            <span [ngClass]="importedCostCenter.status === 'Created successfully' ? 'text-success' : 'text-error'">
               {{ importedCostCenter.status }}
             </span>
           </td>
