@@ -303,6 +303,7 @@ img {
 
 // Help Text
 .form-text {
+  display: block;
   margin: divide($space-default, 3) 0 $space-default * 0.5;
   color: $text-color-tertiary;
 }

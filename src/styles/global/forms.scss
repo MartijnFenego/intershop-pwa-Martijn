@@ -53,10 +53,6 @@ label {
   }
 }
 
-.form-check-label {
-  margin-left: 18px;
-}
-
 // FORM CONTROLS
 .quantity-input {
   min-width: 80px;
@@ -132,6 +128,9 @@ input.form-check-input {
 }
 
 .form-control {
+  color: $gray-700;
+  border-color: $gray-400;
+
   &:focus {
     border-color: $CORPORATE-PRIMARY;
     box-shadow: none;
@@ -145,7 +144,9 @@ input.form-check-input {
 }
 
 select {
+  padding: 0.5rem 0.75rem !important;
   font-family: $font-family-regular;
+  appearance: auto !important;
 }
 
 optgroup {
