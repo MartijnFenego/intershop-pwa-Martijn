@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { CostCenterBase } from 'ish-core/models/cost-center/cost-center.model';
+import { CostCenterImportResult } from 'ish-core/models/cost-center/cost-center.model';
 
 import { OrganizationManagementFacade } from '../../facades/organization-management.facade';
 
@@ -13,11 +13,6 @@ type CostCenterColumnsType =
   | 'costCenterBudgetPeriod'
   | 'status';
 
-export type CostCenterImportResult = {
-  costCenter: CostCenterBase;
-  status: string;
-};
-
 @Component({
   selector: 'ish-cost-center-import-page',
   templateUrl: './cost-center-import-page.component.html',
@@ -25,9 +20,8 @@ export type CostCenterImportResult = {
 })
 export class CostCenterImportPageComponent implements OnInit {
   importResults$: Observable<CostCenterImportResult[]>;
-  loading$: boolean;
+  loading$: Observable<boolean>;
   importedCostCenters: CostCenterImportResult[] = [];
-  private destroy$: Subject<void> = new Subject<void>();
 
   columnsToDisplay: CostCenterColumnsType[] = [
     'costCenterId',
@@ -39,11 +33,7 @@ export class CostCenterImportPageComponent implements OnInit {
   constructor(private organizationManagementFacade: OrganizationManagementFacade) {}
 
   ngOnInit(): void {
-    this.loading$ = true;
+    this.loading$ = this.organizationManagementFacade.costCentersLoading$;
     this.importResults$ = this.organizationManagementFacade.importedCostCenters$;
-    this.importResults$.pipe(takeUntil(this.destroy$)).subscribe(importResults => {
-      this.importedCostCenters = importResults;
-      this.loading$ = false;
-    });
   }
 }

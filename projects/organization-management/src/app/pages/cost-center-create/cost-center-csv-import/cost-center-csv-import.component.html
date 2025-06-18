@@ -4,7 +4,7 @@
     <p>{{ 'quickorder.page.csv.subtitle' | translate }}</p>
     <form
       [formGroup]="csvForm"
-      (ngSubmit)="addCsvToCart()"
+      (ngSubmit)="submitCostCenters()"
       [attr.aria-label]="'quickorder.page.csv.form.label' | translate"
     >
       <div class="form-group section">
@@ -33,12 +33,12 @@
         </div>
         <small
           class="form-text"
-          [innerHTML]="'quickorder.page.csv.sample' | translate : { '0': 'assets/sample-data/quickorder.csv' }"
+          [innerHTML]="'quickorder.page.csv.sample' | translate : { '0': 'assets/sample-data/costcenters.csv' }"
         ></small>
       </div>
       <div>
         <button type="submit" class="btn btn-primary" name="addToCartCSV" [disabled]="isCsvDisabled">
-          {{ 'quickorder.page.add.cart' | translate }}
+          {{ 'account.costcenter.create.button.label' | translate }}
         </button>
         <button type="reset" class="btn btn-link" name="reset" (click)="resetInput()">
           {{ 'csv.reset.button.label' | translate }}
@@ -47,5 +47,3 @@
     </form>
   </div>
 </div>
-
-<!-- [attr.aria-label]="'quickorder.page.csv.form.label' | translate" -->

@@ -1,7 +1,7 @@
 <div class="csv-import">
   <h2>{{ 'csv.title.key' | translate }}</h2>
   <p>{{ subtitleKey | translate }}</p>
-  <div class="form-group">
+  <div [ngSwitch]="status" class="form-group">
     <input
       #fileInput
       type="file"
@@ -10,8 +10,6 @@
       (change)="onFileChange($event)"
       aria-label="CSV Upload"
     />
-  </div>
-  <div [ngSwitch]="status">
     <small *ngSwitchCase="'ValidFormat'" class="has-success"
       ><span class="validation-message">{{ 'csv.file.uploaded' | translate }}</span></small
     >

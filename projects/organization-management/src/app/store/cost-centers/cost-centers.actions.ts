@@ -31,10 +31,13 @@ export const addCostCentersFromCSV = createAction(
   payload<{ costCenters: CostCenterBase[] }>()
 );
 
-export const addCostCentersImportResult = createAction(
-  '[CostCenters] Add Cost Centers Import Result',
-  ({ importResults }: { importResults: { costCenter: CostCenterBase; status: string }[] }) => ({ importResults })
+export const addCostCentersFromCSVSuccess = createAction(
+  '[CostCenter API] Add CostCenters from CSV Success',
+  payload<{ importResults: { costCenter: CostCenterBase; status: string }[] }>()
 );
+
+export const addCostCentersFromCSVFail = createAction('[CostCenter API] Add CostCenters from CSV Fail', httpError());
+
 export const addCostCenterFail = createAction('[CostCenters API] Add Cost Center Fail', httpError());
 
 export const addCostCenterSuccess = createAction(

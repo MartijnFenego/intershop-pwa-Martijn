@@ -19,27 +19,6 @@
   </div>
 </form>
 
-<ish-csv-import
-  [subtitleKey]="'account.costcenter.create.csv.subtitle' | translate"
-  [sampleTextKey]="'csv.file.sample' | translate : { '0': 'assets/sample-data/costcenters.csv' }"
-  [expectedHeaders]="costCenterHeaders"
-  (csvParsed)="handleCsvImport($event)"
-/>
-
-<div>
-  <button
-    type="submit"
-    class="btn btn-primary"
-    (click)="submitCostCenterImports()"
-    data-testing-id="create-cost-center-submit"
-    [disabled]="!csvData || csvData.length === 0"
-  >
-    {{ 'account.costcenter.create.button.label' | translate }}
-  </button>
-
-  <button type="reset" class="btn btn-link" name="reset" (click)="resetCsvData()">
-    {{ 'csv.reset.button.label' | translate }}
-  </button>
-</div>
+<ish-cost-center-csv-import />
 
 <ish-loading *ngIf="loading$ | async" />

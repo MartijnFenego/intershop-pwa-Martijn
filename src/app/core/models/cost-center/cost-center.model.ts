@@ -39,3 +39,8 @@ export interface CostCenter extends CostCenterBase {
     'documentNo' | 'creationDate' | 'status' | 'attributes' | 'user' | 'totalProductQuantity' | 'totals'
   >[];
 }
+
+export type CostCenterImportResult = {
+  costCenter: CostCenterBase;
+  status: string;
+};

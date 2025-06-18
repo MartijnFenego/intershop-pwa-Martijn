@@ -12,7 +12,9 @@ import {
   addCostCenterBuyersSuccess,
   addCostCenterFail,
   addCostCenterSuccess,
-  addCostCentersImportResult,
+  addCostCentersFromCSV,
+  addCostCentersFromCSVFail,
+  addCostCentersFromCSVSuccess,
   deleteCostCenter,
   deleteCostCenterBuyer,
   deleteCostCenterBuyerFail,
@@ -128,10 +130,28 @@ export const costCentersReducer = createReducer(
     };
   }),
   on(
-    addCostCentersImportResult,
+    addCostCentersFromCSV,
+    (state): CostCentersState => ({
+      ...state,
+      loading: true,
+      error: undefined,
+      importResults: [],
+    })
+  ),
+  on(
+    addCostCentersFromCSVSuccess,
     (state, action): CostCentersState => ({
       ...state,
-      importResults: action.importResults,
+      loading: false,
+      importResults: action.payload.importResults,
+    })
+  ),
+  on(
+    addCostCentersFromCSVFail,
+    (state, action): CostCentersState => ({
+      ...state,
+      loading: false,
+      error: action.payload.error,
     })
   ),
   on(updateCostCenterBuyerSuccess, (state, action) => {

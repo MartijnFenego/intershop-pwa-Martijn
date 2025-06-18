@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store, select } from '@ngrx/store';
 import { forkJoin, from, of } from 'rxjs';
-import { catchError, concatMap, exhaustMap, map, mergeMap } from 'rxjs/operators';
+import { catchError, concatMap, exhaustMap, map, mergeMap, switchMap } from 'rxjs/operators';
 
 import { displaySuccessMessage } from 'ish-core/store/core/messages/messages.actions';
 import { selectRouteParam } from 'ish-core/store/core/router';
@@ -19,7 +19,8 @@ import {
   addCostCenterFail,
   addCostCenterSuccess,
   addCostCentersFromCSV,
-  addCostCentersImportResult,
+  addCostCentersFromCSVFail,
+  addCostCentersFromCSVSuccess,
   deleteCostCenter,
   deleteCostCenterBuyer,
   deleteCostCenterBuyerFail,
@@ -105,30 +106,70 @@ export class CostCentersEffects {
     )
   );
 
+  //addCostCenterFromCSV$ = createEffect(() =>
+  //  this.actions$.pipe(
+  //    ofType(addCostCentersFromCSV),
+  //    mapToPayload(),
+  //    concatMap(payload => {
+  //      const costCenterObservables = payload.costCenters.map(costCenter =>
+  //        this.costCentersService.addCostCenter(costCenter).pipe(
+  //          map(addedCostCenter => ({
+  //            costCenter: addedCostCenter,
+  //            status: 'Created successfully',
+  //          })),
+  //          catchError(error =>
+  //            of({
+  //              costCenter,
+  //              status: error ? `${error.errors[0].message}` : 'Error: Unknown',
+  //            })
+  //          )
+  //        )
+  //      );
+  //      return forkJoin(costCenterObservables).pipe(
+  //        concatMap(results => this.navigateTo('../import').pipe(mergeMap(() => [results]))),
+  //        mergeMap(results => [addCostCentersImportResult({ importResults: results })])
+  //      );
+  //    })
+  //  )
+  //);
+
+  // ANGEPASSTER Effekt, der Navigation und Verarbeitung kombiniert
   addCostCenterFromCSV$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addCostCentersFromCSV),
       mapToPayload(),
-      concatMap(payload => {
-        const costCenterObservables = payload.costCenters.map(costCenter =>
-          this.costCentersService.addCostCenter(costCenter).pipe(
-            map(addedCostCenter => ({
-              costCenter: addedCostCenter,
-              status: 'Created successfully',
-            })),
-            catchError(error =>
-              of({
-                costCenter,
-                status: error ? `${error.errors[0].message}` : 'Error: Unknown',
-              })
-            )
-          )
-        );
-        return forkJoin(costCenterObservables).pipe(
-          concatMap(results => this.navigateTo('../import').pipe(mergeMap(() => [results]))),
-          mergeMap(results => [addCostCentersImportResult({ importResults: results })])
-        );
-      })
+      concatMap(payload =>
+        // Schritt 1: Sofort navigieren und auf den Abschluss der Navigation warten.
+        this.navigateTo('../import').pipe(
+          // Schritt 2: Nach der Navigation die Datenverarbeitung starten.
+          switchMap(() => {
+            const costCenters = payload.costCenters;
+            if (!costCenters?.length) {
+              return of(addCostCentersFromCSVSuccess({ importResults: [] }));
+            }
+
+            const costCenterObservables = costCenters.map(costCenter =>
+              this.costCentersService.addCostCenter(costCenter).pipe(
+                map(addedCostCenter => ({
+                  costCenter: addedCostCenter,
+                  status: 'Created successfully',
+                })),
+                catchError(error =>
+                  of({
+                    costCenter,
+                    status: error?.errors?.[0]?.message ?? 'Error: Unknown',
+                  })
+                )
+              )
+            );
+
+            return forkJoin(costCenterObservables).pipe(
+              map(results => addCostCentersFromCSVSuccess({ importResults: results })),
+              catchError(error => of(addCostCentersFromCSVFail({ error })))
+            );
+          })
+        )
+      )
     )
   );
 

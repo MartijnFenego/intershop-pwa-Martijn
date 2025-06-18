@@ -5,9 +5,11 @@ import { StoreModule } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 
+import { CostCenterImportResult } from 'ish-core/models/cost-center/cost-center.model';
+
 import { OrganizationManagementFacade } from '../../facades/organization-management.facade';
 
-import { CostCenterImportPageComponent, CostCenterImportResult } from './cost-center-import-page.component';
+import { CostCenterImportPageComponent } from './cost-center-import-page.component';
 
 describe('Cost Center Import Page Component', () => {
   let component: CostCenterImportPageComponent;

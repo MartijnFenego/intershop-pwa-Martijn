@@ -1,10 +1,11 @@
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { instance, mock, verify, when } from 'ts-mockito';
+import { anyNumber, anyString, instance, mock, verify } from 'ts-mockito';
 
 import { ShoppingFacade } from 'ish-core/facades/shopping.facade';
-import { CsvImportComponent, CsvParsedEvent } from 'ish-shared/components/csv-import/csv-import.component';
+import { CsvData } from 'ish-core/models/csv-import/csv-import.model';
 
 import { QuickorderCsvFormComponent } from './quickorder-csv-form.component';
 
@@ -12,18 +13,23 @@ describe('Quickorder Csv Form Component', () => {
   let component: QuickorderCsvFormComponent;
   let fixture: ComponentFixture<QuickorderCsvFormComponent>;
   let element: HTMLElement;
+  let shoppingFacadeMock: ShoppingFacade;
 
   beforeEach(async () => {
+    shoppingFacadeMock = mock(ShoppingFacade);
     await TestBed.configureTestingModule({
-      declarations: [CsvImportComponent, QuickorderCsvFormComponent],
+      declarations: [QuickorderCsvFormComponent],
       imports: [ReactiveFormsModule, TranslateModule.forRoot()],
-      providers: [{ provide: ShoppingFacade, useFactory: () => instance(mock(ShoppingFacade)) }],
+      providers: [{ provide: ShoppingFacade, useValue: instance(shoppingFacadeMock) }],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(QuickorderCsvFormComponent);
     component = fixture.componentInstance;
+    component.fileInput = {
+      nativeElement: { value: 'dummy', reset: () => {} },
+    } as unknown as ElementRef<HTMLInputElement>;
     element = fixture.nativeElement;
   });
 
@@ -34,25 +40,12 @@ describe('Quickorder Csv Form Component', () => {
   });
 
   it('should parse CSV correctly', () => {
-    const csvImportComponentStub: Partial<CsvImportComponent> = {
-      reset: jest.fn(),
-    };
-    let _status = 'Default';
-    Object.defineProperty(csvImportComponentStub, 'status', {
-      get: () => _status,
-      set: (value: string) => {
-        _status = value;
-      },
-      configurable: true,
-    });
-    component.csvImportComponent = csvImportComponentStub as CsvImportComponent;
-
-    const csvParsedEvent: CsvParsedEvent = {
+    const csvData: CsvData = {
       headers: ['Product ID', 'Quantity'],
       data: ['12345,10', '67890,5'],
     };
 
-    component.handleCsvImport(csvParsedEvent);
+    component.parseCsvData(csvData);
     expect(component.parsedProducts).toHaveLength(2);
 
     const firstProduct = component.parsedProducts[0];
@@ -61,72 +54,59 @@ describe('Quickorder Csv Form Component', () => {
     const secondProduct = component.parsedProducts[1];
     expect(secondProduct.sku).toEqual('67890');
     expect(secondProduct.quantity).toEqual(5);
-
-    expect(csvImportComponentStub.status).toEqual('ValidFormat');
   });
 
-  it('should reset CSV product array and call csvImportComponent.reset', () => {
-    const csvParsedEvent: CsvParsedEvent = {
+  it('should handle empty csv', () => {
+    const csvData: CsvData = {
+      headers: ['Product ID', 'Quantity'],
+      data: [''],
+    };
+
+    component.parseCsvData(csvData);
+    expect(component.parsedProducts).toBeTruthy();
+    expect(component.parsedProducts).toHaveLength(0);
+  });
+
+  it('should call addProductToBasket on submit', () => {
+    fixture.detectChanges();
+
+    const csvData: CsvData = {
+      headers: ['Product ID', 'Quantity'],
+      data: ['12345,10'],
+    };
+
+    component.parseCsvData(csvData);
+    component.addCsvToCart();
+
+    verify(shoppingFacadeMock.addProductToBasket('12345', 10)).once();
+  });
+
+  it('should not call addroductToBasket when parsedProducts is empty on submit', () => {
+    fixture.detectChanges();
+
+    const csvData: CsvData = {
+      headers: ['Product ID', 'Quantity'],
+      data: [''],
+    };
+
+    component.parseCsvData(csvData);
+    component.addCsvToCart();
+
+    verify(shoppingFacadeMock.addProductToBasket(anyString(), anyNumber())).never();
+  });
+
+  it('should reset CSV product array and fileInput', () => {
+    const csvData: CsvData = {
       headers: ['Product ID', 'Quantity'],
       data: ['12345,10', '67890,5'],
     };
-    const csvImportComponentStub: Partial<CsvImportComponent> = {
-      reset: jest.fn(),
-    };
-    let _status = 'Default';
-    Object.defineProperty(csvImportComponentStub, 'status', {
-      get: () => _status,
-      set: (value: string) => {
-        _status = value;
-      },
-      configurable: true,
-    });
-    component.csvImportComponent = csvImportComponentStub as CsvImportComponent;
 
-    component.handleCsvImport(csvParsedEvent);
+    component.parseCsvData(csvData);
     expect(component.parsedProducts).toHaveLength(2);
+    fixture.detectChanges();
 
-    component.resetCsvProductArray();
+    component.resetInput();
     expect(component.parsedProducts).toHaveLength(0);
-    expect((csvImportComponentStub.reset as jest.Mock).mock.calls).toHaveLength(1);
-  });
-
-  describe('when adding CSV products to cart', () => {
-    let shoppingFacadeMock: ShoppingFacade;
-    let csvImportComponentMock: CsvImportComponent;
-
-    beforeEach(async () => {
-      TestBed.resetTestingModule();
-      shoppingFacadeMock = mock(ShoppingFacade);
-      csvImportComponentMock = mock(CsvImportComponent);
-      await TestBed.configureTestingModule({
-        declarations: [CsvImportComponent, QuickorderCsvFormComponent],
-        imports: [ReactiveFormsModule, TranslateModule.forRoot()],
-        providers: [{ provide: ShoppingFacade, useValue: instance(shoppingFacadeMock) }],
-      }).compileComponents();
-    });
-
-    beforeEach(() => {
-      fixture = TestBed.createComponent(QuickorderCsvFormComponent);
-      component = fixture.componentInstance;
-      component.csvImportComponent = instance(csvImportComponentMock);
-      fixture.detectChanges();
-    });
-
-    it('should add CSV products to cart when CSV is valid', () => {
-      when(csvImportComponentMock.status).thenReturn('ValidFormat');
-
-      const csvParsedEvent: CsvParsedEvent = {
-        headers: ['Product ID', 'Quantity'],
-        data: ['12345,10', '67890,5'],
-      };
-      component.handleCsvImport(csvParsedEvent);
-      expect(component.parsedProducts).toHaveLength(2);
-
-      component.addCsvToCart();
-
-      verify(shoppingFacadeMock.addProductToBasket('12345', 10)).once();
-      verify(shoppingFacadeMock.addProductToBasket('67890', 5)).once();
-    });
+    expect(component.fileInput.nativeElement.value).toBeEmpty();
   });
 });

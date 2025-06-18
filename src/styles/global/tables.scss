@@ -326,6 +326,12 @@ table.mobile-optimized.table-lg {
         }
       }
 
+      td.status-cell {
+        &::before {
+          flex: 0 0 40%;
+        }
+      }
+
       &:last-child td {
         border-bottom: none;
       }

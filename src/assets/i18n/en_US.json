@@ -132,6 +132,8 @@
   "account.costcenter.details.orders.list.title": "Orders",
   "account.costcenter.id.error.required": "Please enter a cost center ID.",
   "account.costcenter.id.label": "ID",
+  "account.costcenter.import.back.label": "Back to cost centers",
+  "account.costcenter.import.csv.summary.empty": "No cost centers available.",
   "account.costcenter.import.csv.summary.info": "Your cost centers have been processed. Below is a summary of the results, including which entries were successfully added and which need your attention.",
   "account.costcenter.import.csv.summary.title": "Upload summary",
   "account.costcenter.list.header.budgetperiod": "Period",

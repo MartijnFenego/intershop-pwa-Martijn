@@ -2,7 +2,7 @@
 <p>{{ 'account.costcenter.import.csv.summary.info' | translate }}</p>
 
 <div class="loading-container">
-  <ng-container *ngIf="importResults$ | async as costCenters">
+  <ng-container *ngIf="importResults$ | async as importedCostCenters">
     <ng-container *ngIf="importedCostCenters.length > 0; else emptyList">
       <table
         cdk-table
@@ -51,8 +51,9 @@
             cdk-cell
             *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.manager' | translate"
+            class="status-cell"
           >
-            {{ importedCostCenter.costCenter.costCenterOwner.login }}
+            {{ importedCostCenter.costCenter.costCenterOwner?.login }}
           </td>
         </ng-container>
 
@@ -67,8 +68,8 @@
             [attr.data-label]="'account.costcenter.list.header.budgetspent' | translate"
             class="text-nowrap"
           >
-            {{ importedCostCenter.costCenter.budget.value }}
-            {{ importedCostCenter.costCenter.budget.currency }}
+            {{ importedCostCenter.costCenter.budget?.value }}
+            {{ importedCostCenter.costCenter.budget?.currency }}
             ({{ importedCostCenter.costCenter.budgetPeriod }})
           </td>
         </ng-container>
@@ -82,6 +83,7 @@
             cdk-cell
             *cdkCellDef="let importedCostCenter"
             [attr.data-label]="'account.costcenter.list.header.status' | translate"
+            class="status-cell"
           >
             <span [ngClass]="importedCostCenter.status === 'Created successfully' ? 'text-success' : 'text-error'">
               {{ importedCostCenter.status }}
@@ -97,11 +99,11 @@
 
     <!-- Empty List -->
     <ng-template #emptyList>
-      <p>No cost centers available.</p>
+      <p>{{ 'account.costcenter.import.csv.summary.empty' | translate }}</p>
     </ng-template>
   </ng-container>
 
-  <a [routerLink]="['/account/organization/cost-centers']">Back to cost centers</a>
+  <a [routerLink]="['/account/organization/cost-centers']">{{ 'account.costcenter.import.back.label' | translate }}</a>
 
-  <ish-loading *ngIf="loading$" />
+  <ish-loading *ngIf="loading$ | async" />
 </div>
