@@ -1,10 +1,11 @@
 import { HTTP_INTERCEPTORS, HttpErrorResponse } from '@angular/common/http';
-import { ErrorHandler, NgModule, TransferState } from '@angular/core';
+import { APP_INITIALIZER, ErrorHandler, NgModule, TransferState } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { ServerModule } from '@angular/platform-server';
 import { META_REDUCERS } from '@ngrx/store';
 
 import { configurationMeta } from 'ish-core/configurations/configuration.meta';
-import { DATA_RETENTION_POLICY } from 'ish-core/configurations/injection-keys';
+import { CANONICAL_URL, DATA_RETENTION_POLICY } from 'ish-core/configurations/injection-keys';
 import { COOKIE_CONSENT_VERSION, DISPLAY_VERSION } from 'ish-core/configurations/state-keys';
 import { UniversalCacheInterceptor } from 'ish-core/interceptors/universal-cache.interceptor';
 import { UniversalLogInterceptor } from 'ish-core/interceptors/universal-log.interceptor';
@@ -35,6 +36,13 @@ export class UniversalErrorHandler implements ErrorHandler {
   }
 }
 
+export function setCanonicalFactory(meta: Meta, canonicalUrl: string) {
+  return () => {
+    meta.addTag({ rel: 'canonical', href: canonicalUrl });
+    meta.addTag({ property: 'og:url', content: canonicalUrl });
+  };
+}
+
 @NgModule({
   imports: [AppModule, ServerModule],
   providers: [
@@ -46,6 +54,12 @@ export class UniversalErrorHandler implements ErrorHandler {
     { provide: META_REDUCERS, useValue: configurationMeta, multi: true },
     // disable data retention for SSR
     { provide: DATA_RETENTION_POLICY, useValue: {} },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: setCanonicalFactory,
+      deps: [Meta, CANONICAL_URL],
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
