@@ -199,8 +199,8 @@ export class AccountOrderFiltersComponent implements OnInit, AfterViewInit {
                     className: 'col-12 col-md-6',
                     props: {
                       label: 'account.order_history.filter.label.buyer',
-                      labelClass: 'col-md-12',
-                      fieldClass: 'col-md-6',
+                      labelClass: 'col-md-6',
+                      fieldClass: 'col-md-12',
                     },
                   },
                 ],

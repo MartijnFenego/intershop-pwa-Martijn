@@ -85,11 +85,11 @@
     <dt class="col-6 col-sm-4 col-md-3">{{ 'approval.detailspage.approval_status.label' | translate }}</dt>
     <dd class="col-6 col-sm-8 col-md-9">
       <span
-        class="border border-secondary badge badge-secondary text-capitalize"
+        class="border border-secondary badge bg-secondary text-capitalize"
         [ngClass]="{
-          'border-warning badge-warning': requisition.approval.statusCode === 'PENDING',
-          'border-success badge-success': requisition.approval.statusCode === 'APPROVED',
-          'border-danger badge-danger': requisition.approval.statusCode === 'REJECTED'
+          'border-warning bg-warning text-dark': requisition.approval.statusCode === 'PENDING',
+          'border-success bg-success': requisition.approval.statusCode === 'APPROVED',
+          'border-danger bg-danger': requisition.approval.statusCode === 'REJECTED'
         }"
       >
         <ng-container *ngIf="!requisition.systemRejected; else systemRejected">

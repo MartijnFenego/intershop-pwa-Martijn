@@ -19,6 +19,7 @@ fieldset {
 
 // LABELS
 label {
+  margin-bottom: 0.5rem;
   font-weight: normal;
 
   .required {
@@ -61,7 +62,11 @@ label {
 }
 
 input[type='file'] {
-  padding: 0;
+  width: 100%;
+  padding-bottom: 0.75rem;
+  line-height: 1.5;
+  color: $gray-700;
+  background-color: $white;
   border: none;
   box-shadow: none;
 }
@@ -96,7 +101,7 @@ input[type='search']::-webkit-search-results-decoration {
 
 input.form-check-input {
   margin-top: 0.25rem;
-  margin-left: 0;
+  margin-left: 0 !important;
 }
 
 .form-control-checkbox {
@@ -127,7 +132,12 @@ input.form-check-input {
   }
 }
 
+textarea.form-control {
+  height: auto;
+}
+
 .form-control {
+  height: 35px;
   color: $gray-700;
   border-color: $gray-400;
 

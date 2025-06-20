@@ -9,7 +9,7 @@
       <fa-icon [icon]="['fas', 'undo']" />
     </button>
   </div>
-  <h4 class="font-weight-bold">{{ item.description }}&nbsp;</h4>
+  <h4 class="fw-bold">{{ item.description }}&nbsp;</h4>
 
   <ng-container [ngSwitch]="true">
     <ish-tacton-image-text-buttons *ngSwitchCase="isImageTextButtons(item)" [parameter]="item" />

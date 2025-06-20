@@ -9,7 +9,7 @@
 >
   <p class="pb-3">{{ 'tacton.configure_page.description' | translate }}</p>
   <div class="row pb-2" *ngFor="let conflict of conflictResolutionDialog.data">
-    <div class="col-12 font-weight-bold">{{ conflict.description }}</div>
+    <div class="col-12 fw-bold">{{ conflict.description }}</div>
     <div class="row w-100 border m-1 mx-3 p-1">
       <div class="col-5 text-end">{{ conflict.oldValueDescription }}</div>
       <div class="col-2 text-center"><fa-icon [icon]="['fas', 'arrow-alt-circle-right']" /></div>

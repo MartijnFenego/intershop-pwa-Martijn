@@ -99,6 +99,7 @@
 
   &.btn-link {
     font-family: $font-family-regular;
+    color: $link-color !important;
     text-decoration: none;
     text-transform: unset;
     border: none;
@@ -123,6 +124,7 @@
 
 button.btn-link {
   font-family: $font-family-regular;
+  color: $link-color !important;
   text-decoration: none;
   text-transform: unset;
 
