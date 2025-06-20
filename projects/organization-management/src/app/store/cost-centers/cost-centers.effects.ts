@@ -106,42 +106,12 @@ export class CostCentersEffects {
     )
   );
 
-  //addCostCenterFromCSV$ = createEffect(() =>
-  //  this.actions$.pipe(
-  //    ofType(addCostCentersFromCSV),
-  //    mapToPayload(),
-  //    concatMap(payload => {
-  //      const costCenterObservables = payload.costCenters.map(costCenter =>
-  //        this.costCentersService.addCostCenter(costCenter).pipe(
-  //          map(addedCostCenter => ({
-  //            costCenter: addedCostCenter,
-  //            status: 'Created successfully',
-  //          })),
-  //          catchError(error =>
-  //            of({
-  //              costCenter,
-  //              status: error ? `${error.errors[0].message}` : 'Error: Unknown',
-  //            })
-  //          )
-  //        )
-  //      );
-  //      return forkJoin(costCenterObservables).pipe(
-  //        concatMap(results => this.navigateTo('../import').pipe(mergeMap(() => [results]))),
-  //        mergeMap(results => [addCostCentersImportResult({ importResults: results })])
-  //      );
-  //    })
-  //  )
-  //);
-
-  // ANGEPASSTER Effekt, der Navigation und Verarbeitung kombiniert
   addCostCenterFromCSV$ = createEffect(() =>
     this.actions$.pipe(
       ofType(addCostCentersFromCSV),
       mapToPayload(),
       concatMap(payload =>
-        // Schritt 1: Sofort navigieren und auf den Abschluss der Navigation warten.
         this.navigateTo('../import').pipe(
-          // Schritt 2: Nach der Navigation die Datenverarbeitung starten.
           switchMap(() => {
             const costCenters = payload.costCenters;
             if (!costCenters?.length) {
