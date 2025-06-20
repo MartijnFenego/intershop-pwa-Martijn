@@ -54,15 +54,13 @@ describe('Tacton Configure Navigation Component', () => {
     expect(element).toMatchInlineSnapshot(`
       <ul class="list-unstyled bg-light p-3">
         <li class="pt-1 pb-1">
-          <button type="button" class="btn btn-link btn-link-action font-weight-bold">
-            step 1 description
-          </button>
+          <button type="button" class="btn btn-link btn-link-action fw-bold">step 1 description</button>
           <ul class="list-unstyled ps-3">
             <li class="pt-1 pb-1">
               <button type="button" class="btn btn-link btn-link-action">step 1.1 description</button>
             </li>
             <li class="pt-1 pb-1">
-              <button type="button" class="btn btn-link btn-link-action font-weight-bold">
+              <button type="button" class="btn btn-link btn-link-action fw-bold">
                 step 1.2 description
               </button>
             </li>

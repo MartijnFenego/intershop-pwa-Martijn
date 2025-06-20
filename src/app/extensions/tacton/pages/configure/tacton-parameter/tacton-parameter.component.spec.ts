@@ -65,7 +65,7 @@ describe('Tacton Parameter Component', () => {
     fixture.detectChanges();
     expect(element).toMatchInlineSnapshot(`
       <div class="border-bottom mb-4">
-        <h4 class="font-weight-bold">&nbsp;</h4>
+        <h4 class="fw-bold">&nbsp;</h4>
         <ish-tacton-text-input></ish-tacton-text-input>
       </div>
     `);
@@ -77,7 +77,7 @@ describe('Tacton Parameter Component', () => {
 
     expect(element).toMatchInlineSnapshot(`
       <div class="border-bottom mb-4">
-        <h4 class="font-weight-bold">&nbsp;</h4>
+        <h4 class="fw-bold">&nbsp;</h4>
         <ish-tacton-image-text-buttons></ish-tacton-image-text-buttons>
       </div>
     `);
@@ -90,7 +90,7 @@ describe('Tacton Parameter Component', () => {
 
     expect(element).toMatchInlineSnapshot(`
       <div class="border-bottom mb-4">
-        <h4 class="font-weight-bold">&nbsp;</h4>
+        <h4 class="fw-bold">&nbsp;</h4>
         <ish-tacton-selected-image></ish-tacton-selected-image>
       </div>
     `);
@@ -102,7 +102,7 @@ describe('Tacton Parameter Component', () => {
 
     expect(element).toMatchInlineSnapshot(`
       <div class="border-bottom mb-4">
-        <h4 class="font-weight-bold">&nbsp;</h4>
+        <h4 class="fw-bold">&nbsp;</h4>
         <ish-tacton-text-buttons></ish-tacton-text-buttons>
       </div>
     `);
@@ -115,7 +115,7 @@ describe('Tacton Parameter Component', () => {
 
     expect(element).toMatchInlineSnapshot(`
       <div class="border-bottom mb-4">
-        <h4 class="font-weight-bold">&nbsp;</h4>
+        <h4 class="fw-bold">&nbsp;</h4>
         <ish-tacton-select-input></ish-tacton-select-input>
       </div>
     `);
@@ -128,7 +128,7 @@ describe('Tacton Parameter Component', () => {
 
     expect(element).toMatchInlineSnapshot(`
       <div class="border-bottom mb-4">
-        <h4 class="font-weight-bold">&nbsp;</h4>
+        <h4 class="fw-bold">&nbsp;</h4>
         <ish-tacton-readonly></ish-tacton-readonly>
       </div>
     `);
@@ -141,7 +141,7 @@ describe('Tacton Parameter Component', () => {
 
     expect(element).toMatchInlineSnapshot(`
       <div class="border-bottom mb-4">
-        <h4 class="font-weight-bold">&nbsp;</h4>
+        <h4 class="fw-bold">&nbsp;</h4>
         <ish-tacton-radio-input></ish-tacton-radio-input>
       </div>
     `);
