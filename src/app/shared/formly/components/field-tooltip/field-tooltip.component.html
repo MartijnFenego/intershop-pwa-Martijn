@@ -7,10 +7,9 @@
     [ngbPopover]="popover"
     [popoverTitle]="tooltipInfo.title | translate"
     placement="top"
-    class="btn btn-link details-tooltip"
+    class="btn btn-link btn-link-with-icon details-tooltip"
     [ngClass]="tooltipInfo.class"
   >
-    {{ tooltipInfo.link | translate }}
-    <fa-icon [icon]="['fas', 'info-circle']" />
+    {{ tooltipInfo.link | translate }}<fa-icon [icon]="['fas', 'info-circle']" />
   </button>
 </ng-container>

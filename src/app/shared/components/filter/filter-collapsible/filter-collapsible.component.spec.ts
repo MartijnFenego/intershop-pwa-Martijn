@@ -40,7 +40,7 @@ describe('Filter Collapsible Component', () => {
           aria-expanded="true"
           aria-controls="filter-list_Price"
         >
-          <h3>Price <fa-icon ng-reflect-icon="fas,angle-up"></fa-icon></h3>
+          <h3 class="btn-link-with-icon">Price <fa-icon ng-reflect-icon="fas,angle-up"></fa-icon></h3>
         </button>
       </div>
     `);
@@ -58,7 +58,7 @@ describe('Filter Collapsible Component', () => {
           aria-expanded="false"
           aria-controls="filter-list_Price"
         >
-          <h3>Price <fa-icon ng-reflect-icon="fas,angle-down"></fa-icon></h3>
+          <h3 class="btn-link-with-icon">Price <fa-icon ng-reflect-icon="fas,angle-down"></fa-icon></h3>
         </button>
       </div>
     `);

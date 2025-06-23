@@ -5,12 +5,11 @@
     <button
       *ngIf="props.description"
       type="button"
-      class="btn btn-link details-tooltip"
+      class="btn btn-link btn-link-with-icon details-tooltip"
       [ngbPopover]="ShippingMethodDescription"
       placement="top"
     >
-      {{ 'checkout.detail.text' | translate }}
-      <fa-icon [icon]="['fas', 'info-circle']" />
+      {{ 'checkout.detail.text' | translate }}<fa-icon [icon]="['fas', 'info-circle']" />
     </button>
   </label>
 </div>

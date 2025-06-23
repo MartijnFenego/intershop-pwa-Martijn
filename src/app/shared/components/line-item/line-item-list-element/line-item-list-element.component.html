@@ -62,13 +62,12 @@
             <ng-template #SurchargeDescription> <span [innerHTML]="surcharge.description"></span> </ng-template>
             <button
               type="button"
-              class="btn btn-link details-tooltip"
+              class="btn btn-link details-tooltip btn-link-with-icon"
               [ngbPopover]="SurchargeDescription"
               [popoverTitle]="surcharge.displayName"
               placement="top"
             >
-              {{ 'shopping_cart.detail.text' | translate }}
-              <fa-icon [icon]="['fas', 'info-circle']" />
+              {{ 'shopping_cart.detail.text' | translate }}<fa-icon [icon]="['fas', 'info-circle']" />
             </button>
           </div>
         </ng-container>

@@ -149,6 +149,14 @@ button.btn-link {
   }
 }
 
+.btn-link-with-icon {
+  .ng-fa-icon {
+    padding-left: 6px;
+  }
+
+  @include hover-none-underline();
+}
+
 // multiple buttons margin handling (use "button-group" in case the buttons are not direct siblings)
 .button-group .btn,
 .btn:not(:only-child):not(.btn-link) {

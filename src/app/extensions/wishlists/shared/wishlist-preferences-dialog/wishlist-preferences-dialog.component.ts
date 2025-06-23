@@ -92,7 +92,7 @@ export class WishlistPreferencesDialogComponent implements OnInit {
             link: 'account.wishlists.wishlist_form.preferred.tooltip.linktext',
             text: 'account.wishlists.wishlist_form.preferred.tooltip.content',
             title: 'account.wishlists.wishlist_form.preferred.tooltip.headline',
-            class: 'details-tooltip',
+            class: 'btn-link-with-icon details-tooltip',
           },
         },
       },

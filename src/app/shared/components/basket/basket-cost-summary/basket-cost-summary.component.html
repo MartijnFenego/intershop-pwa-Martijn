@@ -69,13 +69,12 @@
     {{ surcharge.displayName }}
     <button
       type="button"
-      class="btn btn-link details-tooltip"
+      class="btn btn-link btn-link-with-icon details-tooltip"
       [ngbPopover]="SurchargeDescription"
       [popoverTitle]="surcharge.displayName"
       placement="top"
     >
-      {{ 'shopping_cart.detail.text' | translate }}
-      <fa-icon [icon]="['fas', 'info-circle']" />
+      {{ 'shopping_cart.detail.text' | translate }}<fa-icon [icon]="['fas', 'info-circle']" />
     </button>
   </dt>
   <dd class="col-6">{{ surcharge.amount | ishPrice }}</dd>
