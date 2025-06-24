@@ -15,6 +15,19 @@ Since this functionality can and was currently not yet used by any project, disa
 The structure of the elements that contained the `ngbNav` directive was updated to ensure compliance with accessibility standards.
 It was previously based on `<ul>` with `<li role="presentation">` elements, now it uses `<nav>` with `<ng-container>` elements.
 
+The class based selector in the `in-place-edit.component.html` was changed to an attribute selector.
+To project content into the component's `viewMode`, use the `viewModeContent` attribute instead of the `form-control-plaintext` class:
+
+| Previous                            | Current               |
+| ----------------------------------- | --------------------- |
+| `<p class="form-control-plaintext>` | `<p viewModeContent>` |
+
+To project an input into the component's `editMode`, use the `editModeForm ` attribute instead of the `form-control-plaintext` class:
+
+| Previous                                | Current                |
+| --------------------------------------- | ---------------------- |
+| `<input class="form-control-plaintext>` | `<input editModeForm>` |
+
 ## From 6.0.0 to 7.0.0
 
 The Intershop PWA 7.0.0 release contains the **SPARQUE suggest** and **SPARQUE search** functionality to improve the product search in the PWA.
