@@ -115,7 +115,10 @@
               "browserTarget": "intershop-pwa:build:production"
             },
             "development": {
-              "browserTarget": "intershop-pwa:build:development"
+              "browserTarget": "intershop-pwa:build:development",
+              "host": "0.0.0.0",
+              "port": 4200,
+              "allowedHosts": ["intershop-local.midocean.com"]
             },
             "b2b": {
               "browserTarget": "intershop-pwa:build:b2b"

@@ -23,6 +23,7 @@ import { WishlistSharingRoutingModule } from './extensions/wishlists/pages/wishl
 import { AppLastRoutingModule } from './pages/app-last-routing.module';
 import { AppRoutingModule } from './pages/app-routing.module';
 import { ShellModule } from './shell/shell.module';
+import { AuiExportsModule } from './extensions/aui/exports/aui-exports.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -43,6 +44,7 @@ import { ShellModule } from './shell/shell.module';
     CompareRoutingModule,
     ContactUsRoutingModule,
     WishlistSharingRoutingModule,
+    AuiExportsModule,
     AppLastRoutingModule,
   ],
   /* eslint-enable @angular-eslint/sort-ngmodule-metadata-arrays */

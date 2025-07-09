@@ -56,6 +56,7 @@ export interface Environment {
     | 'sentry'
     | 'tacton'
     | 'tracking'
+    | 'aui'
   )[];
 
   /* ADDITIONAL FEATURE CONFIGURATIONS */
