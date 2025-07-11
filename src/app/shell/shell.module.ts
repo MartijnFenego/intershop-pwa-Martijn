@@ -14,6 +14,7 @@ import { FeatureEventService } from 'ish-core/utils/feature-event/feature-event.
 import { ModuleLoaderService } from 'ish-core/utils/module-loader/module-loader.service';
 import { SearchBoxComponent } from 'ish-shared/components/search/search-box/search-box.component';
 
+import { AuiExportsModule } from '../extensions/aui/exports/aui-exports.module';
 import { CompareExportsModule } from '../extensions/compare/exports/compare-exports.module';
 import { QuickorderExportsModule } from '../extensions/quickorder/exports/quickorder-exports.module';
 import { SentryExportsModule } from '../extensions/sentry/exports/sentry-exports.module';
@@ -43,6 +44,7 @@ const exportedComponents = [CookiesBannerComponent, FooterComponent, HeaderCompo
 
 @NgModule({
   imports: [
+    AuiExportsModule,
     AuthorizationToggleModule,
     CommonModule,
     CompareExportsModule,

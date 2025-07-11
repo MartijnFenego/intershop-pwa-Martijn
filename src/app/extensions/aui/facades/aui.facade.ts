@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { getAuiState } from '../store/aui-store';
 
+import { getAuiState } from '../store/aui-store';
 
 /**
  * This type reflects what can be called on auiCtrl but the code for it is not in this repo.
@@ -9,29 +9,53 @@ import { getAuiState } from '../store/aui-store';
  * Still, having a type for auiCtrl in Angular gives some level of type safety and convenience.
  */
 type AUIController = {
-  initConfig: () => void;
-  initConfigWithURL: (configUrl: string) => void;
+  initConfig(): void;
+  initConfigWithURL(configUrl: string): void;
 };
 
 declare const auiCtrl: AUIController;
 
+enum AuiInitState {
+  Uninitialized,
+  Initializing,
+  Ready,
+}
+
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class AuiFacade {
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
+
+  private auiInitState = AuiInitState.Uninitialized;
 
   /**
    * example for debugging
    */
   auiState$ = this.store.pipe(select(getAuiState));
 
+  /**
+   * Add the JS and CSS sources to the html, waits for them to load and then calls the init method on the `AUIController`.
+   * After initialization, AUI should recognise and use the `<aui-xxx>` web components all by itself.
+   *
+   * AUI should not init on the SSR server (since the JS state cannot transfer to the browser) and should only init once.
+   * Calling {@link initAUI} multiple times has safeties to ensure this.
+   */
   initAUI(): void {
+    if (SSR || this.auiInitState !== AuiInitState.Uninitialized) {
+      return;
+    }
+
+    // Since the initialization process requires async actions, an "in progress" state is needed to prevent a second overlapping initAUI() call
+    this.auiInitState = AuiInitState.Initializing;
+
     /*
      * Load The AUI JS bundle
      */
     const bundleScript = document.createElement('script');
     // TODO: via config or something to allow dev
-    bundleScript.src = 'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui-bundle.js';
+    // bundleScript.src = 'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui-bundle.js';
+    // TODO: make local. Then https
+    bundleScript.src = 'http://intershop-local.midocean.com:3000/algolia-ui/develop/algolia-ui-bundle.js';
     bundleScript.defer = true;
     document.head.appendChild(bundleScript);
 
@@ -47,12 +71,13 @@ export class AuiFacade {
     document.head.appendChild(cssLink);
 
     // Create an array of Promises for each script load. There is only one for now...
-    var scriptPromises = Array.from([bundleScript]).map(script => {
-      return new Promise<void>((resolve, reject) => {
-        script.onload = () => resolve();
-        script.onerror = () => reject(`Failed to load script: ${script.src}`);
-      });
-    });
+    const scriptPromises = Array.from([bundleScript]).map(
+      script =>
+        new Promise<void>((resolve, reject) => {
+          script.onload = () => resolve();
+          script.onerror = () => reject(`Failed to load script: ${script.src}`);
+        })
+    );
 
     // Use Promise.all to wait for all Promises to resolve
     Promise.all(scriptPromises)
@@ -71,6 +96,8 @@ export class AuiFacade {
         auiCtrl.initConfigWithURL(
           'https://intershop-acc-live.midocean.com/INTERSHOP/rest/WFS/midocean-BLX-Site/-/aui-config?localeId=en_US'
         );
+
+        this.auiInitState = AuiInitState.Ready;
       })
       .catch(error => {
         // TODO: proper error logging

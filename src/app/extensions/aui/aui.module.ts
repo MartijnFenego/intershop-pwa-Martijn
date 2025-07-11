@@ -3,4 +3,4 @@ import { NgModule } from '@angular/core';
 @NgModule({
   declarations: [],
 })
-export class AuiModule { }
+export class AuiModule {}

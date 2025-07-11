@@ -4,6 +4,8 @@ import { FeatureToggleModule } from 'ish-core/feature-toggle.module';
 import { LAZY_FEATURE_MODULE } from 'ish-core/utils/module-loader/module-loader.service';
 
 import { AuiInitComponent } from './aui-init/aui-init.component';
+import { AuiNavigationComponent } from './aui-navigation/aui-navigation.component';
+import { AuiProductSearchComponent } from './aui-product-search/aui-product-search.component';
 
 @NgModule({
   /*
@@ -17,8 +19,8 @@ import { AuiInitComponent } from './aui-init/aui-init.component';
       multi: true,
     },
   ],
-  declarations: [AuiInitComponent],
-  exports: [AuiInitComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  declarations: [AuiInitComponent, AuiNavigationComponent, AuiProductSearchComponent],
+  exports: [AuiInitComponent, AuiNavigationComponent, AuiProductSearchComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // CUSTOM_ELEMENTS_SCHEMA allows the use of the custom elements of aui web components wthin Angular templates
 })
-export class AuiExportsModule { }
+export class AuiExportsModule {}

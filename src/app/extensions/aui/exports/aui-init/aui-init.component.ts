@@ -1,5 +1,5 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
+
 import { AuiFacade } from '../../facades/aui.facade';
 
 /**
@@ -14,38 +14,49 @@ import { AuiFacade } from '../../facades/aui.facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuiInitComponent implements AfterViewInit {
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: {},
-    private auiFacade: AuiFacade,
-    private hostElemRef: ElementRef) {
-
-  }
+  constructor(private auiFacade: AuiFacade) {}
 
   ngAfterViewInit(): void {
-    // Only run once in the browser (after rehydration in case of SSR)
-    if (isPlatformBrowser(this.platformId)) {
-      this.addCustomElement();
-      this.auiFacade.initAUI();
-    }
+    this.auiFacade.initAUI();
   }
 
-  private addCustomElement(): void {
-    const auiInitElem = document.createElement('aui-init');
-    auiInitElem.setAttribute('data-app-id', 'testing0C9UAYENBP');
-    auiInitElem.setAttribute('data-api-key', '3e7602db35eb6bb9ed9d0dd2fdd9071c');
-
-    /* TODO: these values require the new PWA urls and need to be generated from somewhere */
-    auiInitElem.setAttribute('data-base-search-url', 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewAUI-ProductSearch');
-    auiInitElem.setAttribute('data-fallback-url', 'https://www.midocean.com/benelux/nl/eur/');
-    auiInitElem.setAttribute('data-url-rewrite-enabled', '');
-    auiInitElem.setAttribute('data-page-base-url', 'https://www.midocean.com/benelux/nl/eur/');
-    auiInitElem.setAttribute('data-raw-mts-url', 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewProduct-Start?SKU=');
-    auiInitElem.setAttribute('data-raw-mto-url', 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewContent-Start?PageletEntryPointID=');
-    auiInitElem.setAttribute('data-category-base-url', 'https://www.midocean.com/benelux/nl/eur/');
-    auiInitElem.setAttribute('data-raw-category-url', 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewStandardCatalog-Browse?CatalogID=__0__&CategoryName=__1__');
-    auiInitElem.setAttribute('data-category-urls-disabled', '');
-    auiInitElem.setAttribute('data-currency-code', 'EUR');
-
-    this.hostElemRef.nativeElement.appendChild(auiInitElem);
+  /*
+   * TODO: these getters all need to return dynamic values
+   */
+  get appId() {
+    return 'testing0C9UAYENBP';
+  }
+  get apiKey() {
+    return '182668af1733337955dffd81893c87cc';
+  }
+  get baseSearchUrl() {
+    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewAUI-ProductSearch';
+  }
+  get fallbackUrl() {
+    return 'https://www.midocean.com/benelux/nl/eur/';
+  }
+  get urlRewriteEnabled() {
+    return true;
+  }
+  get pageBaseUrl() {
+    return 'https://www.midocean.com/benelux/nl/eur/';
+  }
+  get rawMtsUrl() {
+    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewProduct-Start?SKU=';
+  }
+  get rawMtoUrl() {
+    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewContent-Start?PageletEntryPointID=';
+  }
+  get categoryBaseUrl() {
+    return 'https://www.midocean.com/benelux/nl/eur/';
+  }
+  get rawCategoryUrl() {
+    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewStandardCatalog-Browse?CatalogID=__0__&CategoryName=__1__';
+  }
+  get categoryUrlsDisabled() {
+    return false;
+  }
+  get currencyCode() {
+    return 'EUR';
   }
 }
