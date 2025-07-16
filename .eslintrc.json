@@ -31,7 +31,7 @@
           "error",
           {
             "type": "element",
-            "prefix": ["ish"],
+            "prefix": ["ish", "custom"],
             "style": "kebab-case"
           }
         ],
@@ -39,7 +39,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": ["ish"],
+            "prefix": ["ish", "custom"],
             "style": "camelCase"
           }
         ],
@@ -48,7 +48,7 @@
         "@angular-eslint/pipe-prefix": [
           "error",
           {
-            "prefixes": ["ish"]
+            "prefixes": ["ish", "custom"]
           }
         ],
         "@angular-eslint/sort-ngmodule-metadata-arrays": "warn",
@@ -155,7 +155,9 @@
         ],
         "@typescript-eslint/no-unused-vars": [
           "error",
-          { "argsIgnorePattern": "^_" }
+          {
+            "argsIgnorePattern": "^_"
+          }
         ],
         "@typescript-eslint/prefer-optional-chain": "warn",
         "arrow-body-style": ["warn", "as-needed"],
@@ -430,7 +432,7 @@
             "warnUnmatched": false,
             "reusePatterns": {
               "name": "[a-z][a-z0-9]*(?:-[a-z][a-z0-9]*)*",
-              "theme": "(?:(?:\\.(?:b2b|b2c))*|\\.all)"
+              "theme": "(?:(?:\\.(?:b2b|b2c|midocean))*|\\.all)"
             },
             "pathPatterns": [
               "^.*/src/environments/environment(\\.\\w+)?\\.ts$",

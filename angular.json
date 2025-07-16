@@ -15,7 +15,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "ish",
+      "prefix": "custom",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
@@ -46,7 +46,7 @@
             "sourceMap": true,
             "allowedCommonJsDependencies": ["localforage"]
           },
-          "defaultConfiguration": "b2b,production",
+          "defaultConfiguration": "midocean,production",
           "configurations": {
             "production": {
               "outputHashing": "all",
@@ -101,7 +101,8 @@
               ]
             },
             "b2b": {},
-            "b2c": {}
+            "b2c": {},
+            "midocean": {}
           }
         },
         "serve": {
@@ -109,7 +110,7 @@
           "options": {
             "browserTarget": "intershop-pwa:build"
           },
-          "defaultConfiguration": "b2b,development",
+          "defaultConfiguration": "midocean,development",
           "configurations": {
             "production": {
               "browserTarget": "intershop-pwa:build:production"
@@ -125,6 +126,9 @@
             },
             "b2c": {
               "browserTarget": "intershop-pwa:build:b2c"
+            },
+            "midocean": {
+              "browserTarget": "intershop-pwa:build:midocean"
             }
           }
         },
@@ -156,12 +160,13 @@
             },
             "sourceMap": true
           },
-          "defaultConfiguration": "b2b,production",
+          "defaultConfiguration": "midocean,production",
           "configurations": {
             "production": {},
             "development": {},
             "b2b": {},
-            "b2c": {}
+            "b2c": {},
+            "midocean": {}
           }
         },
         "serve-ssr": {
@@ -170,7 +175,7 @@
             "browserTarget": "intershop-pwa:build",
             "serverTarget": "intershop-pwa:server"
           },
-          "defaultConfiguration": "b2b",
+          "defaultConfiguration": "midocean",
           "configurations": {
             "b2b": {
               "browserTarget": "intershop-pwa:build:b2b,development",
@@ -179,6 +184,10 @@
             "b2c": {
               "browserTarget": "intershop-pwa:build:b2c,development",
               "serverTarget": "intershop-pwa:server:b2c,development"
+            },
+            "midocean": {
+              "browserTarget": "intershop-pwa:build:midocean,development",
+              "serverTarget": "intershop-pwa:server:midocean,development"
             }
           }
         }
@@ -191,7 +200,7 @@
       },
       "root": "projects/organization-management",
       "sourceRoot": "projects/organization-management/src",
-      "prefix": "ish",
+      "prefix": "custom",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
@@ -238,7 +247,7 @@
       },
       "root": "projects/requisition-management",
       "sourceRoot": "projects/requisition-management/src",
-      "prefix": "ish",
+      "prefix": "custom",
       "architect": {
         "build": {
           "builder": "@angular-builders/custom-webpack:browser",
