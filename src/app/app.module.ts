@@ -10,6 +10,7 @@ import { PWAUrlSerializer } from 'ish-core/routing/pwa-url.serializer';
 import { environment } from '../environments/environment';
 
 import { AppComponent } from './app.component';
+import { AuiExportsModule } from './extensions/aui/exports/aui-exports.module';
 import { CompareRoutingModule } from './extensions/compare/pages/compare-routing.module';
 import { ContactUsRoutingModule } from './extensions/contact-us/pages/contact-us-routing.module';
 import { CopilotExportsModule } from './extensions/copilot/exports/copilot-exports.module';
@@ -19,11 +20,11 @@ import { QuotingRoutingModule } from './extensions/quoting/pages/quoting-routing
 import { RecentlyRoutingModule } from './extensions/recently/pages/recently-routing.module';
 import { StoreLocatorRoutingModule } from './extensions/store-locator/pages/store-locator-routing.module';
 import { TactonRoutingModule } from './extensions/tacton/pages/tacton-routing.module';
+import { W2pRoutingModule } from './extensions/w2p/pages/w2p-routing.module';
 import { WishlistSharingRoutingModule } from './extensions/wishlists/pages/wishlist-sharing-routing.module';
 import { AppLastRoutingModule } from './pages/app-last-routing.module';
 import { AppRoutingModule } from './pages/app-routing.module';
 import { ShellModule } from './shell/shell.module';
-import { AuiExportsModule } from './extensions/aui/exports/aui-exports.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -45,6 +46,7 @@ import { AuiExportsModule } from './extensions/aui/exports/aui-exports.module';
     ContactUsRoutingModule,
     WishlistSharingRoutingModule,
     AuiExportsModule,
+    W2pRoutingModule,
     AppLastRoutingModule,
   ],
   /* eslint-enable @angular-eslint/sort-ngmodule-metadata-arrays */

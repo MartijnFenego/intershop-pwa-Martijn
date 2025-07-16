@@ -37,6 +37,7 @@ import { RatingExportsModule } from '../extensions/rating/exports/rating-exports
 import { RecentlyExportsModule } from '../extensions/recently/exports/recently-exports.module';
 import { StoreLocatorExportsModule } from '../extensions/store-locator/exports/store-locator-exports.module';
 import { TactonExportsModule } from '../extensions/tacton/exports/tacton-exports.module';
+import { W2pExportsModule } from '../extensions/w2p/exports/w2p-exports.module';
 import { WishlistsExportsModule } from '../extensions/wishlists/exports/wishlists-exports.module';
 
 import { CMSModule } from './cms/cms.module';
@@ -321,9 +322,9 @@ const exportedComponents = [
 ];
 
 @NgModule({
-  imports: [...importExportModules, ...standaloneComponents],
+  imports: [...importExportModules, ...standaloneComponents, W2pExportsModule],
   declarations: [...declaredComponents, ...exportedComponents],
-  exports: [...exportedComponents, ...importExportModules, ...standaloneComponents],
+  exports: [...exportedComponents, ...importExportModules, ...standaloneComponents, W2pExportsModule],
 })
 export class SharedModule {
   constructor(moduleLoader: ModuleLoaderService, featureEventNotifier: FeatureEventService, injector: Injector) {

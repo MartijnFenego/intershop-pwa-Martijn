@@ -57,6 +57,7 @@ export interface Environment {
     | 'tacton'
     | 'tracking'
     | 'aui'
+    | 'w2p'
   )[];
 
   /* ADDITIONAL FEATURE CONFIGURATIONS */
