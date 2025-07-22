@@ -1,0 +1,13 @@
+<w2p-print-positions-manager
+  [attr.product-sku]="productSku"
+  [attr.variant-sku]="variantSku"
+  [attr.context]="context"
+  [attr.language-code]="languageCode"
+  [attr.tok]="tok"
+  [attr.sap-customer-id]="sapCustomerId"
+  (:print-position:action)="onPrintPositionAction($event)"
+></w2p-print-positions-manager>
+<!--
+  Note the extra colon in front of the events. Workaround for an Angular bug that inteprets colon as something entirely different
+  https://midoceanbrands.atlassian.net/wiki/spaces/SMW/pages/2915532807/W2P+MTO+components#Colon-in-name
+-->

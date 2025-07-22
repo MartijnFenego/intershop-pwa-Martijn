@@ -7,4 +7,4 @@ import { SharedModule } from 'ish-shared/shared.module';
   declarations: [],
   exports: [SharedModule],
 })
-export class W2pModule {}
+export class W2pModule { }

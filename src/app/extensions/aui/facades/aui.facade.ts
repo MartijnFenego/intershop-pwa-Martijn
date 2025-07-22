@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { getAuiState } from '../store/aui-store';
+import { ScriptLoaderService } from 'ish-core/utils/script-loader/script-loader.service';
 
 /**
  * This type reflects what can be called on auiCtrl but the code for it is not in this repo.
@@ -24,7 +25,7 @@ enum AuiInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class AuiFacade {
-  constructor(private store: Store) {}
+  constructor(private store: Store, private scriptLoaderService: ScriptLoaderService) { }
 
   private auiInitState = AuiInitState.Uninitialized;
 
@@ -49,59 +50,42 @@ export class AuiFacade {
     this.auiInitState = AuiInitState.Initializing;
 
     /*
-     * Load The AUI JS bundle
-     */
-    const bundleScript = document.createElement('script');
-    // TODO: via config or something to allow dev
-    // bundleScript.src = 'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui-bundle.js';
-    // TODO: make local. Then https
-    bundleScript.src = 'http://intershop-local.midocean.com:3000/algolia-ui/develop/algolia-ui-bundle.js';
-    bundleScript.defer = true;
-    document.head.appendChild(bundleScript);
+    * Load The AUI JS bundle
+    */
+    this.scriptLoaderService
+      // TODO: via config or something to allow dev
+      // .load('http://intershop-local.midocean.com:3000/algolia-ui/develop/algolia-ui-bundle.js')
+      .load('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui-bundle.js')
+      .subscribe({
+        next: () => {
+          // Init storefront
+          auiCtrl.initConfigWithURL(
+            // TODO: Url needs to come from config
+            'https://intershop-acc-live.midocean.com/INTERSHOP/rest/WFS/midocean-BLX-Site/-/aui-config?localeId=en_US'
+          );
+
+          this.auiInitState = AuiInitState.Ready;
+        },
+        error: error => {
+          // TODO: proper error logging
+          console.error(error);
+
+          this.auiInitState = AuiInitState.Uninitialized;
+        },
+      });
 
     /*
-     * Load The AUI CSS
+     * Load The AUI CSS but check if it was already added
      */
-    const cssLink = document.createElement('link');
-    // TODO: via config or something to allow dev
-    cssLink.href = 'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css';
-    cssLink.rel = 'stylesheet';
-    cssLink.type = 'text/css';
-    cssLink.media = 'all';
-    document.head.appendChild(cssLink);
-
-    // Create an array of Promises for each script load. There is only one for now...
-    const scriptPromises = Array.from([bundleScript]).map(
-      script =>
-        new Promise<void>((resolve, reject) => {
-          script.onload = () => resolve();
-          script.onerror = () => reject(`Failed to load script: ${script.src}`);
-        })
-    );
-
-    // Use Promise.all to wait for all Promises to resolve
-    Promise.all(scriptPromises)
-      .then(() => {
-        /*
-         * All scripts are loaded, now init.
-         * Only use ONE of the init() functions below
-         */
-
-        // Typically the backoffice pages start the controller without config (sice there is no storefront context) and load the config to be edited via the aui-config-mgr web components (so a second init).
-        // When they switch context (eg difference locale), they then reinitialize which is not something the storefront will do
-        auiCtrl.initConfig();
-
-        // Init storefront
-        // TODO: Url needs to come from config
-        auiCtrl.initConfigWithURL(
-          'https://intershop-acc-live.midocean.com/INTERSHOP/rest/WFS/midocean-BLX-Site/-/aui-config?localeId=en_US'
-        );
-
-        this.auiInitState = AuiInitState.Ready;
-      })
-      .catch(error => {
-        // TODO: proper error logging
-        console.error(error);
-      });
+    const cssUrl = 'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css';
+    if (!document.querySelector(`link[href="${cssUrl}"]`)) {
+      const cssLink = document.createElement('link');
+      // TODO: via config or something to allow dev
+      cssLink.href = cssUrl;
+      cssLink.rel = 'stylesheet';
+      cssLink.type = 'text/css';
+      cssLink.media = 'all';
+      document.head.appendChild(cssLink);
+    }
   }
 }

@@ -14,7 +14,7 @@ import { AuiFacade } from '../../facades/aui.facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuiInitComponent implements AfterViewInit {
-  constructor(private auiFacade: AuiFacade) {}
+  constructor(private auiFacade: AuiFacade) { }
 
   ngAfterViewInit(): void {
     this.auiFacade.initAUI();
@@ -27,7 +27,7 @@ export class AuiInitComponent implements AfterViewInit {
     return 'testing0C9UAYENBP';
   }
   get apiKey() {
-    return '182668af1733337955dffd81893c87cc';
+    return '3e7602db35eb6bb9ed9d0dd2fdd9071c';
   }
   get baseSearchUrl() {
     return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewAUI-ProductSearch';

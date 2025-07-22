@@ -25,6 +25,7 @@ import { WishlistSharingRoutingModule } from './extensions/wishlists/pages/wishl
 import { AppLastRoutingModule } from './pages/app-last-routing.module';
 import { AppRoutingModule } from './pages/app-routing.module';
 import { ShellModule } from './shell/shell.module';
+import { W2pExportsModule } from './extensions/w2p/exports/w2p-exports.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -47,6 +48,7 @@ import { ShellModule } from './shell/shell.module';
     WishlistSharingRoutingModule,
     AuiExportsModule,
     W2pRoutingModule,
+    W2pExportsModule,
     AppLastRoutingModule,
   ],
   /* eslint-enable @angular-eslint/sort-ngmodule-metadata-arrays */
