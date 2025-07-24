@@ -25,36 +25,38 @@ export class AuiInitComponent implements AfterViewInit {
    */
   get appId() {
     return 'testing0C9UAYENBP';
+    // return 'ZDHL6PW6U1';
   }
   get apiKey() {
     return '3e7602db35eb6bb9ed9d0dd2fdd9071c';
+    // return '182668af1733337955dffd81893c87cc';
   }
   get baseSearchUrl() {
-    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewAUI-ProductSearch';
+    return 'https://intershop-local.midocean.com:4200/search';
   }
   get fallbackUrl() {
-    return 'https://www.midocean.com/benelux/nl/eur/';
+    return 'https://intershop-local.midocean.com:4200/home';
   }
   get urlRewriteEnabled() {
     return true;
   }
   get pageBaseUrl() {
-    return 'https://www.midocean.com/benelux/nl/eur/';
+    return 'https://intershop-local.midocean.com:4200/';
   }
   get rawMtsUrl() {
-    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewProduct-Start?SKU=';
+    return 'https://intershop-local.midocean.com:4200/home?SKU=';
   }
   get rawMtoUrl() {
-    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewContent-Start?PageletEntryPointID=';
+    return 'https://intershop-local.midocean.com:4200/home?PageletEntryPointID=';
   }
   get categoryBaseUrl() {
-    return 'https://www.midocean.com/benelux/nl/eur/';
+    return 'https://intershop-local.midocean.com:4200/category';
   }
   get rawCategoryUrl() {
-    return 'https://www.midocean.com/INTERSHOP/web/WFS/midocean-BLX-Site/nl_NL/-/EUR/ViewStandardCatalog-Browse?CatalogID=__0__&CategoryName=__1__';
+    return 'https://intershop-local.midocean.com:4200/category?CatalogID=__0__&CategoryName=__1__';
   }
   get categoryUrlsDisabled() {
-    return false;
+    return true;
   }
   get currencyCode() {
     return 'EUR';

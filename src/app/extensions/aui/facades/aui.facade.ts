@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { getAuiState } from '../store/aui-store';
-import { ScriptLoaderService } from 'ish-core/utils/script-loader/script-loader.service';
+import { ResourceLoaderService } from 'ish-core/utils/resource-loader/resource-loader.service';
 
 /**
  * This type reflects what can be called on auiCtrl but the code for it is not in this repo.
@@ -25,7 +25,7 @@ enum AuiInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class AuiFacade {
-  constructor(private store: Store, private scriptLoaderService: ScriptLoaderService) { }
+  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) { }
 
   private auiInitState = AuiInitState.Uninitialized;
 
@@ -50,12 +50,12 @@ export class AuiFacade {
     this.auiInitState = AuiInitState.Initializing;
 
     /*
-    * Load The AUI JS bundle
-    */
-    this.scriptLoaderService
+     * Load The AUI JS bundle
+     */
+    this.resourceLoaderService
       // TODO: via config or something to allow dev
-      // .load('http://intershop-local.midocean.com:3000/algolia-ui/develop/algolia-ui-bundle.js')
-      .load('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui-bundle.js')
+      // .loadScript('https://intershop-local.midocean.com:3000/algolia-ui/develop/algolia-ui-bundle.js')
+      .loadScript('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui-bundle.js')
       .subscribe({
         next: () => {
           // Init storefront
@@ -75,17 +75,11 @@ export class AuiFacade {
       });
 
     /*
-     * Load The AUI CSS but check if it was already added
+     * Load The AUI CSS
      */
-    const cssUrl = 'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css';
-    if (!document.querySelector(`link[href="${cssUrl}"]`)) {
-      const cssLink = document.createElement('link');
-      // TODO: via config or something to allow dev
-      cssLink.href = cssUrl;
-      cssLink.rel = 'stylesheet';
-      cssLink.type = 'text/css';
-      cssLink.media = 'all';
-      document.head.appendChild(cssLink);
-    }
+    this.resourceLoaderService
+      // TODO: get from config
+      .loadStylesheet('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css')
+      .subscribe();   // No actions after the result but the observable needs to be triggered
   }
 }

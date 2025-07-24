@@ -1,14 +1,5 @@
 <ng-template #searchBoxTemplate let-icon="icon">
-  <ish-search-box
-    data-testing-id="search-box-desktop"
-    [deviceType]="deviceType"
-    [configuration]="{
-      placeholder: 'search.searchbox.instructional_text' | translate,
-      autoSuggest: true,
-      maxAutoSuggests: 5,
-      icon: icon
-    }"
-  />
+  <ish-aui-product-search />
 </ng-template>
 
 <div class="header container" [ngClass]="deviceType">

@@ -22,7 +22,7 @@ export class W2pPrintPositionsManagerComponent implements AfterViewInit {
 
   }
   ngAfterViewInit(): void {
-    this.w2pFacade.initCommonW2P().subscribe();
+    this.w2pFacade.initCommonW2P();
   }
 
   // https://intershop-acc-live.midocean.com/benelux/us/eur/ar1804-85-zid10240565
