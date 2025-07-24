@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { getW2pState } from '../store/w2p-store';
-import { forkJoin, Observable, EMPTY } from 'rxjs';
 import { ResourceLoaderService } from 'ish-core/utils/resource-loader/resource-loader.service';
 
 enum W2pInitState {

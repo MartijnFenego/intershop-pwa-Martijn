@@ -6,6 +6,7 @@
   [attr.tok]="tok"
   [attr.sap-customer-id]="sapCustomerId"
   (:print-position:action)="onPrintPositionAction($event)"
+  (:print-position:cancel)="onPrintPositionCancel()"
 ></w2p-print-positions-manager>
 <!--
   Note the extra colon in front of the events. Workaround for an Angular bug that inteprets colon as something entirely different

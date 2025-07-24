@@ -1,5 +1,6 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { W2pFacade } from '../../facades/w2p.facade';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 type PrintPositionActionDetail = {
   positionId: string;
@@ -18,9 +19,10 @@ type PrintPositionActionDetail = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class W2pPrintPositionsManagerComponent implements AfterViewInit {
-  constructor(private w2pFacade: W2pFacade) {
+  @Output() close = new EventEmitter<void>();
 
-  }
+  constructor(private w2pFacade: W2pFacade) { }
+
   ngAfterViewInit(): void {
     this.w2pFacade.initCommonW2P();
   }
@@ -48,5 +50,10 @@ export class W2pPrintPositionsManagerComponent implements AfterViewInit {
   onPrintPositionAction(event: Event) {
     const detail = (event as CustomEvent<PrintPositionActionDetail[]>).detail;
     console.log('onPrintPositionAction', detail);
+  }
+
+  onPrintPositionCancel() {
+    console.log('closing...');
+    this.close.emit();
   }
 }
