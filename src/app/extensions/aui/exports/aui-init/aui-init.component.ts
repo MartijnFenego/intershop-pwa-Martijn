@@ -17,7 +17,7 @@ export class AuiInitComponent implements AfterViewInit {
   constructor(private auiFacade: AuiFacade) { }
 
   ngAfterViewInit(): void {
-    this.auiFacade.initAUI();
+    this.auiFacade.initAUI().subscribe();
   }
 
   /*

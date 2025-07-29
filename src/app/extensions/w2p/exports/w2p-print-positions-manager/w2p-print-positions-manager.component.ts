@@ -1,6 +1,5 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
 import { W2pFacade } from '../../facades/w2p.facade';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 type PrintPositionActionDetail = {
   positionId: string;
@@ -24,7 +23,7 @@ export class W2pPrintPositionsManagerComponent implements AfterViewInit {
   constructor(private w2pFacade: W2pFacade) { }
 
   ngAfterViewInit(): void {
-    this.w2pFacade.initCommonW2P();
+    this.w2pFacade.initCommonW2P().subscribe();
   }
 
   // https://intershop-acc-live.midocean.com/benelux/us/eur/ar1804-85-zid10240565
@@ -41,10 +40,10 @@ export class W2pPrintPositionsManagerComponent implements AfterViewInit {
     return "en";
   }
   get tok() {
-    return "ZaJplBa4mbC8ayuSgN0b1k8p7EowDbnw+QQx2MvI1WPoedrhJbiL20VTtZZsyBZteI4i0Sd95HY+bi54891liw==";
+    return this.w2pFacade.getToken();
   }
   get sapCustomerId() {
-    return "80839536";
+    return this.w2pFacade.getSapCustomerId();
   }
 
   onPrintPositionAction(event: Event) {

@@ -182,6 +182,7 @@
     "ts-morph": "^21.0.1",
     "ts-node": "~10.9.2",
     "typescript": "~5.1.6",
+    "vue": "^2.7.14",
     "xliff": "^6.2.1"
   },
   "overrides": {

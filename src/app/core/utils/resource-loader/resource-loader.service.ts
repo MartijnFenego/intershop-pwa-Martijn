@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { ScriptLoaderService } from "../script-loader/script-loader.service";
-import { forkJoin, Observable } from "rxjs";
+import { forkJoin, map, Observable } from "rxjs";
 
 @Injectable({ providedIn: 'root' })
 export class ResourceLoaderService {
@@ -8,11 +8,51 @@ export class ResourceLoaderService {
   }
 
   /**
+   * Pass the returned observable of any of the load functions in this service to combine them and subscribe.
+   * Usage:
+   * ```
+   * const ob1 = loadScripts(url1, url2);
+   * const ob2 = loadStylesheets(url3, url4);
+   * flatJoinThenSubscribe({
+   *    next: (url) => console.log(url),
+   *    error: () => {},
+   *    complete: () => {}
+   * }, ob1, ob2);
+   * ```
+   * @param observables
+   * @returns
+   */
+  flatJoinThenSubscribe(
+    observerOrNext: Parameters<Observable<string[]>['subscribe']>[0],
+    ...observables: Array<Observable<string | string[]>>
+  ) {
+    return this.flatJoin(...observables).subscribe(observerOrNext);
+  }
+
+  /**
+   * Pass the returned observables of any of the load functions in this service to combine them.
+   * Afterwards, you can subscribe to the result which will be a flat array of all the loaded urls
+   * Usage:
+   * ```
+   * const ob1 = loadScripts(url1, url2);
+   * const ob2 = loadStylesheets(url3, url4);
+   * flatJoin(ob1, ob2);
+   * ```
+   * @param observables
+   * @returns
+   */
+  flatJoin(...observables: Array<Observable<string | string[]>>) {
+    return forkJoin(observables).pipe(
+      map(results => results.flatMap(r => Array.isArray(r) ? r : [r]))
+    )
+  }
+
+  /**
    * JUst a wrapper for ScriptLoaderService.load to allow consistently using ResourceLoaderService
    * @param scriptUrl
    */
-  loadScript(scriptUrl: string) {
-    return this.scriptLoaderService.load(scriptUrl);
+  loadScript(scriptUrl: string): Observable<string> {
+    return this.scriptLoaderService.load(scriptUrl).pipe(map(scriptType => scriptType.src));
   }
 
   /**
@@ -22,7 +62,7 @@ export class ResourceLoaderService {
    * @param scriptUrls
    * @returns A single observable that returns an array of ScriptType results produced by ScriptLoaderService
    */
-  loadScripts(...scriptUrls: string[]) {
+  loadScripts(...scriptUrls: string[]): Observable<string[]> {
     return forkJoin(scriptUrls.map(scriptUrl => this.loadScript(scriptUrl)))
   }
 
@@ -59,7 +99,7 @@ export class ResourceLoaderService {
    * Note that if just one of them fails, the wrapper Observable will fail too.
    * @param styleUrls
    */
-  loadStylesheets(...styleUrls: string[]) {
+  loadStylesheets(...styleUrls: string[]): Observable<string[]> {
     return forkJoin(styleUrls.map(styleUrl => this.loadStylesheet(styleUrl)));
   }
 }

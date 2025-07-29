@@ -3,6 +3,7 @@ import { Store, select } from '@ngrx/store';
 
 import { getAuiState } from '../store/aui-store';
 import { ResourceLoaderService } from 'ish-core/utils/resource-loader/resource-loader.service';
+import { EMPTY, map, Observable, tap } from 'rxjs';
 
 /**
  * This type reflects what can be called on auiCtrl but the code for it is not in this repo.
@@ -32,6 +33,7 @@ export class AuiFacade {
   /**
    * example for debugging
    */
+  // TODO: use auiState$ instead of the member variables and returning an observable
   auiState$ = this.store.pipe(select(getAuiState));
 
   /**
@@ -41,9 +43,9 @@ export class AuiFacade {
    * AUI should not init on the SSR server (since the JS state cannot transfer to the browser) and should only init once.
    * Calling {@link initAUI} multiple times has safeties to ensure this.
    */
-  initAUI(): void {
+  initAUI(): Observable<void> {
     if (SSR || this.auiInitState !== AuiInitState.Uninitialized) {
-      return;
+      return EMPTY;
     }
 
     // Since the initialization process requires async actions, an "in progress" state is needed to prevent a second overlapping initAUI() call
@@ -52,34 +54,33 @@ export class AuiFacade {
     /*
      * Load The AUI JS bundle
      */
-    this.resourceLoaderService
+    const scriptObservables = this.resourceLoaderService
       // TODO: via config or something to allow dev
       // .loadScript('https://intershop-local.midocean.com:3000/algolia-ui/develop/algolia-ui-bundle.js')
       .loadScript('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui-bundle.js')
-      .subscribe({
-        next: () => {
-          // Init storefront
-          auiCtrl.initConfigWithURL(
-            // TODO: Url needs to come from config
-            'https://intershop-acc-live.midocean.com/INTERSHOP/rest/WFS/midocean-BLX-Site/-/aui-config?localeId=en_US'
-          );
+      .pipe(
+        tap({
+          next: () => {
+            // Init storefront
+            auiCtrl.initConfigWithURL(
+              // TODO: Url needs to come from config
+              'https://intershop-acc-live.midocean.com/INTERSHOP/rest/WFS/midocean-BLX-Site/-/aui-config?localeId=en_US'
+            );
 
-          this.auiInitState = AuiInitState.Ready;
-        },
-        error: error => {
-          // TODO: proper error logging
-          console.error(error);
-
-          this.auiInitState = AuiInitState.Uninitialized;
-        },
-      });
+            this.auiInitState = AuiInitState.Ready;
+          },
+          error: () => this.auiInitState = AuiInitState.Uninitialized,
+        })
+      );
 
     /*
      * Load The AUI CSS
      */
-    this.resourceLoaderService
-      // TODO: get from config
-      .loadStylesheet('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css')
-      .subscribe();   // No actions after the result but the observable needs to be triggered
+    // TODO: get from config
+    const styleObservables = this.resourceLoaderService.loadStylesheet('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css');
+
+    return this.resourceLoaderService
+      .flatJoin(styleObservables, scriptObservables)
+      .pipe(map(_ => { }));
   }
 }

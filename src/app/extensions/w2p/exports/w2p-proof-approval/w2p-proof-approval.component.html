@@ -1,0 +1,13 @@
+<w2p-proof-approval
+  [attr.context]="context"
+  [attr.personalization-id]="personalizationId"
+  [attr.language-code]="languageCode"
+  [attr.user-dd]="userId"
+  [attr.user-full-name]="userFullName"
+  [attr.tok]="tok"
+  [attr.sap-customer-id]="sapCustomerId"
+>
+  <template v-slot="{pdf, pageScale, config}">
+    <vue-pdf-app :pdf="pdf" :pageScale="pageScale" :config="config"></vue-pdf-app>
+  </template>
+</w2p-proof-approval>
