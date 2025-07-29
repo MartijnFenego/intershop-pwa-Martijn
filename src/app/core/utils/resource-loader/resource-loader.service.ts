@@ -1,11 +1,10 @@
-import { Injectable } from "@angular/core";
-import { ScriptLoaderService } from "../script-loader/script-loader.service";
-import { forkJoin, map, Observable } from "rxjs";
+import { Injectable } from '@angular/core';
+import { ScriptLoaderService } from '../script-loader/script-loader.service';
+import { forkJoin, map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ResourceLoaderService {
-  constructor(private scriptLoaderService: ScriptLoaderService) {
-  }
+  constructor(private scriptLoaderService: ScriptLoaderService) {}
 
   /**
    * Pass the returned observable of any of the load functions in this service to combine them and subscribe.
@@ -42,9 +41,7 @@ export class ResourceLoaderService {
    * @returns
    */
   flatJoin(...observables: Array<Observable<string | string[]>>) {
-    return forkJoin(observables).pipe(
-      map(results => results.flatMap(r => Array.isArray(r) ? r : [r]))
-    )
+    return forkJoin(observables).pipe(map(results => results.flatMap(r => (Array.isArray(r) ? r : [r]))));
   }
 
   /**
@@ -63,7 +60,7 @@ export class ResourceLoaderService {
    * @returns A single observable that returns an array of ScriptType results produced by ScriptLoaderService
    */
   loadScripts(...scriptUrls: string[]): Observable<string[]> {
-    return forkJoin(scriptUrls.map(scriptUrl => this.loadScript(scriptUrl)))
+    return forkJoin(scriptUrls.map(scriptUrl => this.loadScript(scriptUrl)));
   }
 
   /**
@@ -72,7 +69,7 @@ export class ResourceLoaderService {
    * @returns
    */
   loadStylesheet(styleUrl: string): Observable<string> {
-    return new Observable<string>((subscriber) => {
+    return new Observable<string>(subscriber => {
       /*
        * Load stylesheet but check if it was already added
        */
@@ -86,7 +83,7 @@ export class ResourceLoaderService {
         styleLink.onload = () => {
           subscriber.next(styleUrl);
           subscriber.complete();
-        }
+        };
         styleLink.onerror = () => subscriber.error(`Could not load script ${styleUrl}`);
         document.head.appendChild(styleLink);
       }

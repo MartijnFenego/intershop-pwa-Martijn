@@ -26,7 +26,7 @@ enum AuiInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class AuiFacade {
-  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) { }
+  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) {}
 
   private auiInitState = AuiInitState.Uninitialized;
 
@@ -69,7 +69,7 @@ export class AuiFacade {
 
             this.auiInitState = AuiInitState.Ready;
           },
-          error: () => this.auiInitState = AuiInitState.Uninitialized,
+          error: () => (this.auiInitState = AuiInitState.Uninitialized),
         })
       );
 
@@ -77,10 +77,10 @@ export class AuiFacade {
      * Load The AUI CSS
      */
     // TODO: get from config
-    const styleObservables = this.resourceLoaderService.loadStylesheet('https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css');
+    const styleObservables = this.resourceLoaderService.loadStylesheet(
+      'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css'
+    );
 
-    return this.resourceLoaderService
-      .flatJoin(styleObservables, scriptObservables)
-      .pipe(map(_ => { }));
+    return this.resourceLoaderService.flatJoin(styleObservables, scriptObservables).pipe(map(_ => {}));
   }
 }

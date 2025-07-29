@@ -14,7 +14,7 @@ enum W2pInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class W2pFacade {
-  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) { }
+  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) {}
 
   private w2pCommonInitState = W2pInitState.Uninitialized;
   private w2pProofApprovalInitState = W2pInitState.Uninitialized;
@@ -39,22 +39,20 @@ export class W2pFacade {
     this.w2pCommonInitState = W2pInitState.Initializing;
 
     /*
-      * Load The W2P common JS bundle
-      */
+     * Load The W2P common JS bundle
+     */
     // TODO: make configurable
     const scriptUrls = [
-      "https://unpkg.com/vue@2.7.14/dist/vue.min.js",
-      "https://webcomponents.cdn.midocean.com/intershop-acc/2.44.0/w2p.min.js"
+      'https://unpkg.com/vue@2.7.14/dist/vue.min.js',
+      'https://webcomponents.cdn.midocean.com/intershop-acc/2.44.0/w2p.min.js',
     ];
-    return this.resourceLoaderService
-      .loadScripts(...scriptUrls)
-      .pipe(
-        tap({
-          next: () => this.w2pCommonInitState = W2pInitState.Ready,
-          error: () => this.w2pCommonInitState = W2pInitState.Uninitialized
-        }),
-        map(_ => { })
-      );
+    return this.resourceLoaderService.loadScripts(...scriptUrls).pipe(
+      tap({
+        next: () => (this.w2pCommonInitState = W2pInitState.Ready),
+        error: () => (this.w2pCommonInitState = W2pInitState.Uninitialized),
+      }),
+      map(_ => {})
+    );
   }
 
   initProofApproval(): Observable<void> {
@@ -72,20 +70,18 @@ export class W2pFacade {
     const scriptUrls = [
       'https://unpkg.com/vue@2.7.14/dist/vue.min.js',
       'https://webcomponents.cdn.midocean.com/intershop-acc/2.44.0/w2p-proof-approval.umd.min.js',
-      'https://unpkg.com/vue-pdf-app@2.0.0'   // vue-pdf-app package
+      'https://unpkg.com/vue-pdf-app@2.0.0', // vue-pdf-app package
     ];
-    const scriptObservables = this.resourceLoaderService
-      .loadScripts(...scriptUrls)
-      .pipe(
-        tap({
-          next: () => {
-            this.w2pProofApprovalInitState = W2pInitState.Ready
+    const scriptObservables = this.resourceLoaderService.loadScripts(...scriptUrls).pipe(
+      tap({
+        next: () => {
+          this.w2pProofApprovalInitState = W2pInitState.Ready;
 
-            // TODO: do stuff
-          },
-          error: () => this.w2pProofApprovalInitState = W2pInitState.Uninitialized
-        })
-      );
+          // TODO: do stuff
+        },
+        error: () => (this.w2pProofApprovalInitState = W2pInitState.Uninitialized),
+      })
+    );
 
     /*
      * Load the css
@@ -93,23 +89,20 @@ export class W2pFacade {
     // TODO: make configurable
     const stylesheetUrls = [
       'https://webcomponents.cdn.midocean.com/intershop-acc/2.44.0/w2p-proof-approval.css',
-      'https://unpkg.com/vue-pdf-app@2.0.0/dist/icons/main.css'      // vue-pdf-app package
+      'https://unpkg.com/vue-pdf-app@2.0.0/dist/icons/main.css', // vue-pdf-app package
     ];
     const styleObservables = this.resourceLoaderService.loadStylesheets(...stylesheetUrls);
 
-    return this.resourceLoaderService
-      .flatJoin(styleObservables, scriptObservables)
-      .pipe(map(_ => { }));
+    return this.resourceLoaderService.flatJoin(styleObservables, scriptObservables).pipe(map(_ => {}));
   }
 
   // Dev note: Use $(W2P_COMPONENTS.TOKEN_CONTAINER).data('token') on ACC page to see current values
   getToken() {
     // TODO: set dynamically
-    return "ZaJplBa4mbC8ayuSgN0b1k8p7EowDbnw+QQx2MvI1WN2cjf3LUlghb+FF7wqhM9WmQRDhjooMDL3EKChUv3XXA==";
+    return 'ZaJplBa4mbC8ayuSgN0b1k8p7EowDbnw+QQx2MvI1WN2cjf3LUlghb+FF7wqhM9WmQRDhjooMDL3EKChUv3XXA==';
   }
   getSapCustomerId() {
     // TODO: set dynamically
-    return "80839536";
+    return '80839536';
   }
-
 }

@@ -20,4 +20,4 @@ import { CommonModule } from '@angular/common';
   exports: [W2pPrintPositionsManagerComponent, W2pProofApprovalComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA], // CUSTOM_ELEMENTS_SCHEMA allows the use of the custom elements of aui web components wthin Angular templates
 })
-export class W2pExportsModule { }
+export class W2pExportsModule {}

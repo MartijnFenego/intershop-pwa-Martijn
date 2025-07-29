@@ -13,8 +13,8 @@ import type { VueConstructor } from 'vue';
 // The scripts loaded for this component expose certain global variables that we need to access blindly so they are declared below.
 declare global {
   interface Window {
-    ["vue-pdf-app"]: any;           // Exposed by the https://unpkg.com/vue-pdf-app@2.0.0 script loaded in W2pFacade.initProofApproval()
-    ["w2p-proof-approval"]: any;    // Exposed by the w2p-proof-approval.umd.min.js script loaded in W2pFacade.initProofApproval()
+    ['vue-pdf-app']: any; // Exposed by the https://unpkg.com/vue-pdf-app@2.0.0 script loaded in W2pFacade.initProofApproval()
+    ['w2p-proof-approval']: any; // Exposed by the w2p-proof-approval.umd.min.js script loaded in W2pFacade.initProofApproval()
   }
 }
 
@@ -24,15 +24,10 @@ declare global {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class W2pProofApprovalComponent implements AfterViewInit {
-  constructor(
-    private elRef: ElementRef,
-    private w2pFacade: W2pFacade
-  ) { }
+  constructor(private elRef: ElementRef, private w2pFacade: W2pFacade) { }
 
   ngAfterViewInit(): void {
-    this.w2pFacade.initProofApproval().subscribe({
-      next: () => this.mountProofApproval()
-    });
+    this.w2pFacade.initProofApproval().subscribe(() => this.mountProofApproval());
   }
 
   /**
@@ -46,10 +41,10 @@ export class W2pProofApprovalComponent implements AfterViewInit {
     const Vue = (window as any).Vue as VueConstructor;
     new Vue({
       components: {
-        VuePdfApp: window["vue-pdf-app"],
-        w2pProofApproval: window["w2p-proof-approval"]
-      }
-    }).$mount(hostElement);   // Mount the Vue code on the host element which will transform the entire html of the template
+        VuePdfApp: window['vue-pdf-app'],
+        w2pProofApproval: window['w2p-proof-approval'],
+      },
+    }).$mount(hostElement); // Mount the Vue code on the host element which will transform the entire html of the template
   }
 
   get context(): string {
@@ -58,7 +53,7 @@ export class W2pProofApprovalComponent implements AfterViewInit {
   }
   get languageCode() {
     // TODO: get dynamically
-    return 'en'
+    return 'en';
   }
   get personalizationId(): string {
     // TODO: get dynamically

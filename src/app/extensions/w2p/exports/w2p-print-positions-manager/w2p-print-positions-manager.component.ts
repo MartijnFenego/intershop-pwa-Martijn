@@ -10,7 +10,7 @@ type PrintPositionActionDetail = {
     techniqueName: string;
     printTechniqueSAPCode: string;
   };
-}
+};
 
 @Component({
   selector: 'custom-w2p-print-positions-manager',
@@ -20,7 +20,7 @@ type PrintPositionActionDetail = {
 export class W2pPrintPositionsManagerComponent implements AfterViewInit {
   @Output() close = new EventEmitter<void>();
 
-  constructor(private w2pFacade: W2pFacade) { }
+  constructor(private w2pFacade: W2pFacade) {}
 
   ngAfterViewInit(): void {
     this.w2pFacade.initCommonW2P().subscribe();
@@ -28,16 +28,16 @@ export class W2pPrintPositionsManagerComponent implements AfterViewInit {
 
   // https://intershop-acc-live.midocean.com/benelux/us/eur/ar1804-85-zid10240565
   get productSku() {
-    return "40000190";
+    return '40000190';
   }
   get variantSku() {
-    return "10240565";
+    return '10240565';
   }
   get context() {
-    return "pdp";
+    return 'pdp';
   }
   get languageCode() {
-    return "en";
+    return 'en';
   }
   get tok() {
     return this.w2pFacade.getToken();

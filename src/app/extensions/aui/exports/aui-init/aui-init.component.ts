@@ -14,7 +14,7 @@ import { AuiFacade } from '../../facades/aui.facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuiInitComponent implements AfterViewInit {
-  constructor(private auiFacade: AuiFacade) { }
+  constructor(private auiFacade: AuiFacade) {}
 
   ngAfterViewInit(): void {
     this.auiFacade.initAUI().subscribe();
