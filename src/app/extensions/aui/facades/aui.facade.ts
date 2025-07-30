@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { EMPTY, Observable, map, tap } from 'rxjs';
+
+import { ResourceLoaderService } from 'ish-core/utils/resource-loader/resource-loader.service';
 
 import { getAuiState } from '../store/aui-store';
-import { ResourceLoaderService } from 'ish-core/utils/resource-loader/resource-loader.service';
-import { EMPTY, map, Observable, tap } from 'rxjs';
 
 /**
  * This type reflects what can be called on auiCtrl but the code for it is not in this repo.
@@ -26,7 +27,7 @@ enum AuiInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class AuiFacade {
-  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) { }
+  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) {}
 
   private auiInitState = AuiInitState.Uninitialized;
 
@@ -77,6 +78,6 @@ export class AuiFacade {
       'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css'
     );
 
-    return this.resourceLoaderService.flatJoin(styleObservables, scriptObservables).pipe(map(_ => { }));
+    return this.resourceLoaderService.flatJoin(styleObservables, scriptObservables).pipe(map(_ => {}));
   }
 }

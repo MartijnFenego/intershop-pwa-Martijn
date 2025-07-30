@@ -1,16 +1,9 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { type VueConstructor } from 'vue';
+
 import { W2pFacade } from '../../facades/w2p.facade';
 
-/*
- * IMPORTANT: Vue is install for development to allow using it properly here. Note that this does not include Vue in the actual final PRD code since it is never imported.
- * The version needs to match the vue script that is loaded in W2pFacade.initProofApproval()
- * npm install --save-dev vue@2.7.14
- *
- * But we should not be forced to be executing Vue code in an angular app... Levi9 should fix this.
- */
-// The workaround below loads the type of vue so that `new Vue` can be called in our code without Vue needing to be part of the PWA
-import { type VueConstructor } from 'vue';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // The scripts loaded for this component expose certain global variables that we need to access blindly so they are declared below.
 declare global {
   interface Window {
@@ -27,7 +20,7 @@ declare global {
 export class W2pProofApprovalComponent implements AfterViewInit {
   private destroyRef = inject(DestroyRef);
 
-  constructor(private elRef: ElementRef, private w2pFacade: W2pFacade) { }
+  constructor(private elRef: ElementRef, private w2pFacade: W2pFacade) {}
 
   ngAfterViewInit(): void {
     this.w2pFacade

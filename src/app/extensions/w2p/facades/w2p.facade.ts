@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { EMPTY, Observable, map, tap } from 'rxjs';
+
+import { ResourceLoaderService } from 'ish-core/utils/resource-loader/resource-loader.service';
 
 import { getW2pState } from '../store/w2p-store';
-import { ResourceLoaderService } from 'ish-core/utils/resource-loader/resource-loader.service';
-import { EMPTY, map, Observable, tap } from 'rxjs';
 
 enum W2pInitState {
   Uninitialized,
@@ -14,7 +15,7 @@ enum W2pInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class W2pFacade {
-  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) { }
+  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) {}
 
   private w2pCommonInitState = W2pInitState.Uninitialized;
   private w2pProofApprovalInitState = W2pInitState.Uninitialized;
@@ -47,7 +48,7 @@ export class W2pFacade {
         next: () => (this.w2pCommonInitState = W2pInitState.Ready),
         error: () => (this.w2pCommonInitState = W2pInitState.Uninitialized),
       }),
-      map(_ => { })
+      map(_ => {})
     );
   }
 

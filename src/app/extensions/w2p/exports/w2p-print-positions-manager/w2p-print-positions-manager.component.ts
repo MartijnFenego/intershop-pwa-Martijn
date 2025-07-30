@@ -1,6 +1,15 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, EventEmitter, inject, Output } from '@angular/core';
-import { W2pFacade } from '../../facades/w2p.facade';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  EventEmitter,
+  Output,
+  inject,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+
+import { W2pFacade } from '../../facades/w2p.facade';
 
 type PrintPositionActionDetail = {
   positionId: string;
@@ -23,13 +32,10 @@ export class W2pPrintPositionsManagerComponent implements AfterViewInit {
 
   @Output() close = new EventEmitter<void>();
 
-  constructor(private w2pFacade: W2pFacade) { }
+  constructor(private w2pFacade: W2pFacade) {}
 
   ngAfterViewInit(): void {
-    this.w2pFacade
-      .initCommonW2P()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe();
+    this.w2pFacade.initCommonW2P().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 
   // https://intershop-acc-live.midocean.com/benelux/us/eur/ar1804-85-zid10240565
