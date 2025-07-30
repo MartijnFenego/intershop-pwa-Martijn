@@ -26,14 +26,10 @@ enum AuiInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class AuiFacade {
-  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) {}
+  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) { }
 
   private auiInitState = AuiInitState.Uninitialized;
 
-  /**
-   * example for debugging
-   */
-  // TODO: use auiState$ instead of the member variables and returning an observable
   auiState$ = this.store.pipe(select(getAuiState));
 
   /**
@@ -81,6 +77,6 @@ export class AuiFacade {
       'https://cdn2.midocean.com/algolia-ui/develop/algolia-ui.css'
     );
 
-    return this.resourceLoaderService.flatJoin(styleObservables, scriptObservables).pipe(map(_ => {}));
+    return this.resourceLoaderService.flatJoin(styleObservables, scriptObservables).pipe(map(_ => { }));
   }
 }

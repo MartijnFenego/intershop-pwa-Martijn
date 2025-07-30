@@ -1,6 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject } from '@angular/core';
 
 import { AuiFacade } from '../../facades/aui.facade';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /**
  * An Angular wrapper for `<aui-init>`
@@ -14,10 +15,15 @@ import { AuiFacade } from '../../facades/aui.facade';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuiInitComponent implements AfterViewInit {
-  constructor(private auiFacade: AuiFacade) {}
+  private destroyRef = inject(DestroyRef);
+
+  constructor(private auiFacade: AuiFacade) { }
 
   ngAfterViewInit(): void {
-    this.auiFacade.initAUI().subscribe();
+    this.auiFacade
+      .initAUI()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
   /*

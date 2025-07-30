@@ -14,15 +14,11 @@ enum W2pInitState {
 /* eslint-disable @typescript-eslint/member-ordering */
 @Injectable({ providedIn: 'root' })
 export class W2pFacade {
-  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) {}
+  constructor(private store: Store, private resourceLoaderService: ResourceLoaderService) { }
 
   private w2pCommonInitState = W2pInitState.Uninitialized;
   private w2pProofApprovalInitState = W2pInitState.Uninitialized;
 
-  /**
-   * example for debugging
-   */
-  // TODO: use w2pState$ instead of the member variables and returning an observable
   w2pState$ = this.store.pipe(select(getW2pState));
 
   /**
@@ -51,7 +47,7 @@ export class W2pFacade {
         next: () => (this.w2pCommonInitState = W2pInitState.Ready),
         error: () => (this.w2pCommonInitState = W2pInitState.Uninitialized),
       }),
-      map(_ => {})
+      map(_ => { })
     );
   }
 

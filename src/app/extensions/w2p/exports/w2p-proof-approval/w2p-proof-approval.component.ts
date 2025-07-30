@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject } from '@angular/core';
 import { W2pFacade } from '../../facades/w2p.facade';
 
 /*
@@ -9,7 +9,8 @@ import { W2pFacade } from '../../facades/w2p.facade';
  * But we should not be forced to be executing Vue code in an angular app... Levi9 should fix this.
  */
 // The workaround below loads the type of vue so that `new Vue` can be called in our code without Vue needing to be part of the PWA
-import type { VueConstructor } from 'vue';
+import { type VueConstructor } from 'vue';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 // The scripts loaded for this component expose certain global variables that we need to access blindly so they are declared below.
 declare global {
   interface Window {
@@ -24,10 +25,15 @@ declare global {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class W2pProofApprovalComponent implements AfterViewInit {
+  private destroyRef = inject(DestroyRef);
+
   constructor(private elRef: ElementRef, private w2pFacade: W2pFacade) { }
 
   ngAfterViewInit(): void {
-    this.w2pFacade.initProofApproval().subscribe(() => this.mountProofApproval());
+    this.w2pFacade
+      .initProofApproval()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.mountProofApproval());
   }
 
   /**
