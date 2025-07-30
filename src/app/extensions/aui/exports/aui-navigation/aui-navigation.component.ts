@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'ish-aui-navigation',
+  selector: 'custom-aui-navigation',
   templateUrl: './aui-navigation.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

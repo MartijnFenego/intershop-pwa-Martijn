@@ -1,5 +1,5 @@
 <ng-template #searchBoxTemplate let-icon="icon">
-  <ish-aui-product-search />
+  <custom-aui-product-search />
 </ng-template>
 
 <div class="header container" [ngClass]="deviceType">
@@ -118,7 +118,7 @@
       [attr.aria-label]="'navigation.main.aria_label' | translate"
     >
       <div class="main-navigation">
-        <ish-header-navigation />
+        <custom-aui-navigation />
         <ish-user-information-mobile />
       </div>
     </nav>
